@@ -1,0 +1,22 @@
+{
+  "name": "jobits-server",
+  "version": "1.0.0",
+  "description": "Mimanjob Project's Server Repository",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DSM-jobITs/jobITs-Server.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DSM-jobITs/jobITs-Server/issues"
+  },
+  "homepage": "https://github.com/DSM-jobITs/jobITs-Server#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
