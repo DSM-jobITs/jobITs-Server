@@ -4,10 +4,16 @@ class InterviewService {
   }
 
   async getAllFieldQuestions(page, maxShow) {
-    return await this.interviewModel.findAll({
+    const results = await this.interviewModel.findAll({
       limit: maxShow,
       offset: page - 1
     });
+
+    results.forEach((result) => {
+      result['createdAt'] = result['createdAt'].toFormat('YYYY-MM-DD');
+    });
+
+    return results;
   }
 }
 
