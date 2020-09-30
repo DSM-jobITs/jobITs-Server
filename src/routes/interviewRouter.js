@@ -17,9 +17,8 @@ router.get('/', async (req, res) => {
     const results = await interview.getInterviewQuestions(page, field, maxShow);
     res.status(200).send(results);
   } catch (error) {
-    console.error(error);
+    res.status(error.status).send(error.message);
   }
-
 });
 
 module.exports = router;
