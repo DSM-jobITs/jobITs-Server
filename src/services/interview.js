@@ -52,7 +52,7 @@ class InterviewService {
       throw badRequest;
     }
 
-    if (!this.isStored(id)) {
+    if (!await this.isStored(id)) {
       throw notFound;
     }
 
@@ -64,12 +64,12 @@ class InterviewService {
     });
   }
 
-  async deleteInterviewQuestion(id) {
+  async removeInterviewQuestion(id) {
     if (!id) {
       throw badRequest;
     }
 
-    if (!this.isStored(id)) {
+    if (!await this.isStored(id)) {
       throw notFound;
     }
 
