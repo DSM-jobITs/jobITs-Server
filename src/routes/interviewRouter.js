@@ -25,6 +25,7 @@ router.post('/', async (req, res) => {
   const { questions, field } = req.body;
 
   try {
+    await interview.registerInterviewQuestions(questions, field);
     res.status(201).send({ message: '성공적으로 면접 질문을 등록하였습니다.' });
   } catch (error) {
     res.status(error.status).send(error.message);
