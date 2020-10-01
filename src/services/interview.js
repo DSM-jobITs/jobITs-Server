@@ -39,6 +39,19 @@ class InterviewService {
       });
     });
   }
+
+  async modifyInterviewQuestion(id, content, field) {
+    if (!id || !content || !field) {
+      throw badRequest;
+    }
+
+    await this.interviewModel.update({
+      content: content,
+      field: field
+    }, {
+      where: { id: id }
+    });
+  }
 }
 
 module.exports = InterviewService;
