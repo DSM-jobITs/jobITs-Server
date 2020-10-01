@@ -63,6 +63,20 @@ class InterviewService {
       where: { id: id }
     });
   }
+
+  async deleteInterviewQuestion(id) {
+    if (!id) {
+      throw badRequest;
+    }
+
+    if (!this.isStored(id)) {
+      throw notFound;
+    }
+
+    await this.interviewModel.destroy({
+      where: { id: id }
+    });
+  }
 }
 
 module.exports = InterviewService;
