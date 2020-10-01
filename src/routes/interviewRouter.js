@@ -17,7 +17,7 @@ router.get('/', async (req, res) => {
     const results = await interview.getInterviewQuestions(page, field, maxShow);
     res.send({ lists: results });
   } catch (error) {
-    res.status(error.status).send(error.message);
+    res.status(error.status).send({ message: error.message });
   }
 });
 
@@ -28,7 +28,7 @@ router.post('/', async (req, res) => {
     await interview.registerInterviewQuestions(contents, field);
     res.status(201).send({ message: '성공적으로 면접 질문을 등록하였습니다.' });
   } catch (error) {
-    res.status(error.status).send(error.message);
+    res.status(error.status).send({ message: error.message });
   }
 });
 
@@ -40,7 +40,7 @@ router.put('/:id', async (req, res) => {
     await interview.modifyInterviewQuestion(id, content, field);
     res.send({ message: '수정되었습니다.' });
   } catch (error) {
-    res.status(error.status).send(error.message);
+    res.status(error.status).send({ message: error.message });
   }
 });
 
@@ -51,7 +51,7 @@ router.delete('/:id', async (req, res) => {
     await interview.removeInterviewQuestion(id);
     res.send({ message: '정상적으로 삭제되었습니다.' });
   } catch (error) {
-    res.status(error.status).send(error.message);
+    res.status(error.status).send({ message: error.message });
   }
 });
 
