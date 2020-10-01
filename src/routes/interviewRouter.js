@@ -44,4 +44,15 @@ router.put('/:id', async (req, res) => {
   }
 });
 
+router.delete('/:id', async (req, res) => {
+  const id = req.params.id;
+
+  try {
+    await interview.removeInterviewQuestion(id);
+    res.send({ message: '정상적으로 삭제되었습니다.' });
+  } catch (error) {
+    res.status(error.status).send(error.message);
+  }
+});
+
 module.exports = router;
