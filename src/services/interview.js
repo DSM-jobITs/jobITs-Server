@@ -26,6 +26,19 @@ class InterviewService {
 
     return results;
   }
+
+  async registerInterviewQuestions(questions, field) {
+    if (!questions.length || !field) {
+      throw badRequest;
+    }
+
+    questions.forEach(async (question) => {
+      await this.interviewModel.create({
+        content: question,
+        field: field
+      });
+    });
+  }
 }
 
 module.exports = InterviewService;
