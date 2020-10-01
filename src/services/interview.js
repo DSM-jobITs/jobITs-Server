@@ -40,9 +40,20 @@ class InterviewService {
     });
   }
 
+  async isStored(id) {
+    const count = await this.interviewModel.count({
+      where: { id: id }
+    });
+    return count ? true : false;
+  }
+
   async modifyInterviewQuestion(id, content, field) {
     if (!id || !content || !field) {
       throw badRequest;
+    }
+
+    if (!this.isStored(id)) {
+      throw notFound;
     }
 
     await this.interviewModel.update({
