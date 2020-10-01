@@ -27,14 +27,14 @@ class InterviewService {
     return results;
   }
 
-  async registerInterviewQuestions(questions, field) {
+  async registerInterviewQuestions(contents, field) {
     if (!questions.length || !field) {
       throw badRequest;
     }
 
-    questions.forEach(async (question) => {
+    contents.forEach(async (content) => {
       await this.interviewModel.create({
-        content: question,
+        content: content,
         field: field
       });
     });
