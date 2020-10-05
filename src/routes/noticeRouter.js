@@ -10,7 +10,7 @@ const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/jpg' || file.mimetype === 'image/png') {
       cb(null, 'uploads/images');
-    } else if (file.mimetype === 'application/pdf' || file.mimetype === 'text') {
+    } else if (file.mimetype === 'application/pdf' || file.mimetype === 'text/plain') {
       cb(null, 'uploads/texts');
     } else {
       console.log(file.mimetype);
