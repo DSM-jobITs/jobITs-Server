@@ -19,6 +19,7 @@ const upload = multer({
   storage: multerS3({
     s3: s3,
     bucket: BUCKET_NAME,
+    contentType: multerS3.AUTO_CONTENT_TYPE,
     key: (req, file, cb) => {
       const extension = path.extname(file.originalname);
       cb(null, Date.now().toString() + extension);
@@ -27,22 +28,23 @@ const upload = multer({
   })
 })
 
-router.post('/', upload.array('test'), async (req, res) => {
+router.post('/', upload.array('test'), (req, res) => {
   req.files.forEach((file) => {
-    const param = {
+    console.log(file);
+    const params = {
       Bucket: BUCKET_NAME,
-      Key: file.filename,
-      ACL: 'public-read',
-      Body: fs.readFileSync(file.filename)
+      Key: file.key,
+      Body: file.location,
+      ACL: 'public-read'
     };
-    s3.upload(param, (error, data) => {
+    s3.upload(params, (error, data) => {
       if (error) {
         throw error;
       }
       console.log(`File uploaded successfully. ${data.Location}`);
     });
   });
-  res.send('Success');
+  res.send('');
 });
 
 module.exports = router;
