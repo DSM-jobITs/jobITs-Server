@@ -6,7 +6,6 @@ const NoticeService = require('../services/notice');
 const noticeService = new NoticeService(Notices);
 
 const path = require('path');
-const fs = require('fs');
 const multer = require('multer');
 const multerS3 = require('multer-s3');
 const AWS = require('aws-sdk');
@@ -26,7 +25,7 @@ const upload = multer({
     },
     acl: 'public-read'
   })
-})
+});
 
 router.post('/', upload.array('test'), (req, res) => {
   req.files.forEach((file) => {
