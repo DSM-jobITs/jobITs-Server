@@ -27,6 +27,8 @@ class FileService {
   }
 
   uploadFiles(files) {
+    let fileLocationArray = [];
+    
     files.forEach((file) => {
       const params = {
         Bucket: BUCKET_NAME,
@@ -40,9 +42,10 @@ class FileService {
           error.status = 500;
           throw error;
         }
-        console.log(`File uploaded successfully. ${data.Location}`);
+        fileLocationArray.push(data.Location);
       });
     });
+    return fileLocationArray;
   }
 }
 
