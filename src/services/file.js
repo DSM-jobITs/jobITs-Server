@@ -28,7 +28,7 @@ class FileService {
 
   async uploadFiles(files) {
     if (!files) {
-      return null;
+      return [null];
     }
 
     let fileLocationArray = [];
