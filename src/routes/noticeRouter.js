@@ -1,15 +1,10 @@
 const express = require('express');
 const router = express.Router();
+const { badRequest } = require('../errors');
 
 const Notices = require('../models/notice');
 const NoticeService = require('../services/notice');
 const noticeService = new NoticeService(Notices);
-
-const path = require('path');
-const multer = require('multer');
-const multerS3 = require('multer-s3');
-const AWS = require('aws-sdk');
-AWS.config.loadFromPath(__dirname + '/../config/awsconfig.json');
 
 const { BUCKET_NAME } = require('../config');
 const s3 = new AWS.S3();
@@ -27,23 +22,24 @@ const upload = multer({
   })
 });
 
-router.post('/', upload.array('test'), (req, res) => {
-  req.files.forEach((file) => {
-    console.log(file);
-    const params = {
-      Bucket: BUCKET_NAME,
-      Key: file.key,
-      Body: file.location,
-      ACL: 'public-read'
-    };
-    s3.upload(params, (error, data) => {
-      if (error) {
-        throw error;
-      }
-      console.log(`File uploaded successfully. ${data.Location}`);
+router.post('/', upload.array('test'), async (req, res) => {
+  if (!req.body) {
+    return res.status(badRequest.status).send({
+      message: badRequest.message
     });
-  });
-  res.send('');
+  }
+  
+  try {
+    const files = noticeService.uploadFiles(req.files);
+    const { title, content, fixed } = req.body;
+    
+    await noticeService.createNotice(title, content, files, fixed);    
+    res.status(201).send({ message: '성공적으로 등록되었습니다.' });
+  } catch (error) {
+    res.status(error.status).send({
+      message: error.message
+    });
+  }
 });
 
 module.exports = router;
