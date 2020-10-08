@@ -15,7 +15,7 @@ const upload = multer({
     contentType: multerS3.AUTO_CONTENT_TYPE,
     key: (req, file, cb) => {
       const extension = path.extname(file.originalname);
-      cb(null, Date.now().toString + extension);
+      cb(null, Date.now().toString() + extension);
     },
     acl: 'public-read'
   })
@@ -26,10 +26,14 @@ class FileService {
     this.upload = upload;
   }
 
-  uploadFiles(files) {
+  async uploadFiles(files) {
+    if (!files) {
+      return null;
+    }
+
     let fileLocationArray = [];
     
-    files.forEach((file) => {
+    await files.forEach((file) => {
       const params = {
         Bucket: BUCKET_NAME,
         Key: file.key,
