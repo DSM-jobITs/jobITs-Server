@@ -32,7 +32,6 @@ class NoticeService extends FileService {
       where: { id: id }
     });
     result.dataValues.files = [result.file];
-    result.createdAt
     delete result.dataValues.file;
 
     for (let i = 1; i < await this.noticeModel.count({
