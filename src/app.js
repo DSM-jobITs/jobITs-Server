@@ -7,7 +7,7 @@ const { SERVER_PORT } = require('./config');
 const noticeRouter = require('./routes/noticeRouter');
 
 app.use(express.json());
-app.use(formidableMiddleware());
+app.use(formidableMiddleware({ multiples: true }));
 app.use(express.urlencoded({ extended: false }));
 
 connectDatabase();
