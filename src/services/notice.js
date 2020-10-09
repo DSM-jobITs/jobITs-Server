@@ -1,5 +1,6 @@
 const FileService = require('./file');
-const { badRequest } = require('../errors');
+const { badRequest, notFound } = require('../errors');
+require('date-utils');
 
 class NoticeService extends FileService {
   constructor(noticeModel) {
@@ -23,10 +24,6 @@ class NoticeService extends FileService {
   }
 
   async getOneNotice(id) {
-    if (typeof id !== 'number') {
-      throw badRequest;
-    }
-
     const result = await this.noticeModel.findOne({
       attributes: ['title', 'content', 'file', 'createdAt'],
       where: { id: id }
@@ -42,9 +39,13 @@ class NoticeService extends FileService {
         where: { createdAt: result.createdAt },
         offset: 1
       });
+
+      if (result.dataValues.files.includes(data.file)) {
+        throw notFound;
+      }
       result.dataValues.files.push(data.file);
     }
-
+    result.createdAt = result.createdAt.toFormat('YYYY-MM-DD');
     return result;
   }
 }
