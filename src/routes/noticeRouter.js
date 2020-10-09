@@ -7,15 +7,19 @@ const NoticeService = require('../services/notice');
 const noticeService = new NoticeService(Notices);
 
 router.get('/:id', async (req, res) => {
+  if (typeof req.params.id !== 'number') {
+    return res.status(badRequest.status).send({
+      message: badRequest.message
+    });
+  }
   const id = parseInt(req.params.id);
   try {
     const result = await noticeService.getOneNotice(id);
     res.send(result);
   } catch (error) {
-    // res.status(error.status).send({
-    //   message: error.message
-    // });
-    console.error(error);
+    res.status(error.status).send({
+      message: error.message
+    });
   }
 });
 
