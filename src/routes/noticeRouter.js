@@ -6,6 +6,19 @@ const Notices = require('../models/notice');
 const NoticeService = require('../services/notice');
 const noticeService = new NoticeService(Notices);
 
+router.get('/:id', async (req, res) => {
+  const id = parseInt(req.params.id);
+  try {
+    const result = await noticeService.getOneNotice(id);
+    res.send(result);
+  } catch (error) {
+    // res.status(error.status).send({
+    //   message: error.message
+    // });
+    console.error(error);
+  }
+});
+
 router.post('/',  async (req, res) => {
   if (!Object.keys(req.fields).length) {
     return res.status(badRequest.status).send({
