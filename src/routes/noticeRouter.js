@@ -6,14 +6,23 @@ const Notices = require('../models/notice');
 const NoticeService = require('../services/notice');
 const noticeService = new NoticeService(Notices);
 
+router.get('/', async (req, res) => {
+  const page = parseInt(req.query.page);
+  if (isNaN(page)) {
+    return res.status(badRequest.status).send({
+      message: badRequest.message
+    });
+  }
+});
+
 router.get('/:id', async (req, res) => {
-  const id = parseInt(req.params.id);
+  const id = parseInt(req.query.id);
   if (isNaN(id)) {
     return res.status(badRequest.status).send({
       message: badRequest.message
     });
   }
-  
+
   try {
     const result = await noticeService.getOneNotice(id);
     res.send(result);
