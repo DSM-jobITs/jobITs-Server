@@ -1,6 +1,7 @@
 const FileService = require('./file');
 const { badRequest, notFound } = require('../errors');
 const countOfSameNotice = require('../utils/countOfSameNotice');
+const isStoredNotice = require('../utils/isStoredNotice');
 require('date-utils');
 
 class NoticeService extends FileService {
@@ -25,6 +26,11 @@ class NoticeService extends FileService {
   }
 
   async getOneNotice(id) {
+    // check id was stored in database
+    if (!isStoredNotice(id)) {
+      throw notFound;
+    }
+
     const result = await this.noticeModel.findOne({
       attributes: ['title', 'content', 'file', 'createdAt'],
       where: { id: id }
@@ -32,6 +38,7 @@ class NoticeService extends FileService {
     result.dataValues.files = [result.file];
     delete result.dataValues.file;
 
+    // if notice has serval files, it find them.
     for (let i = 1; i < await countOfSameNotice(result.createdAt); i++) {
       const data = await this.noticeModel.findOne({
         attributes: ['file'],
@@ -39,11 +46,13 @@ class NoticeService extends FileService {
         offset: 1
       });
 
+      // if it is not first file's id, it's invalid.
       if (result.dataValues.files.includes(data.file)) {
         throw notFound;
       }
       result.dataValues.files.push(data.file);
     }
+    
     result.createdAt = result.createdAt.toFormat('YYYY-MM-DD');
     return result;
   }
