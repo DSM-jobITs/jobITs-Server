@@ -11,7 +11,7 @@ class NoticeService extends FileService {
   }
 
   async createNotice(title, content, files, fixed) {
-    if (!title || !content || (typeof fixed !== 'boolean')) {
+    if ((typeof title !== 'string') || (typeof content !== 'string') || (typeof fixed !== 'boolean')) {
       throw badRequest;
     }
 
