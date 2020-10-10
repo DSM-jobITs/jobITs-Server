@@ -1,5 +1,6 @@
 const FileService = require('./file');
 const { badRequest, notFound } = require('../errors');
+const countOfSameNotice = require('../utils/countOfSameNotice');
 require('date-utils');
 
 class NoticeService extends FileService {
@@ -31,9 +32,7 @@ class NoticeService extends FileService {
     result.dataValues.files = [result.file];
     delete result.dataValues.file;
 
-    for (let i = 1; i < await this.noticeModel.count({
-      where: { createdAt: result.createdAt }
-    }); i++) {
+    for (let i = 1; i < await countOfSameNotice(result.createdAt); i++) {
       const data = await this.noticeModel.findOne({
         attributes: ['file'],
         where: { createdAt: result.createdAt },
