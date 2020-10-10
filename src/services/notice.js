@@ -27,7 +27,7 @@ class NoticeService extends FileService {
 
   async getOneNotice(id) {
     // check id was stored in database
-    if (!isStoredNotice(id)) {
+    if (!await isStoredNotice(id)) {
       throw notFound;
     }
 
