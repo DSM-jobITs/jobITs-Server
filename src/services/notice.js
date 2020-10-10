@@ -2,6 +2,7 @@ const FileService = require('./file');
 const { badRequest, notFound } = require('../errors');
 const countOfSameNotice = require('../utils/countOfSameNotice');
 const isStoredNotice = require('../utils/isStoredNotice');
+const isNotEmpty = require('../utils/isNotEmpty');
 require('date-utils');
 
 class NoticeService extends FileService {
@@ -55,6 +56,12 @@ class NoticeService extends FileService {
     
     result.createdAt = result.createdAt.toFormat('YYYY-MM-DD');
     return result;
+  }
+
+  async getNotices(page) {
+    if (!isNotEmpty()) {
+      throw notFound;
+    }
   }
 }
 
