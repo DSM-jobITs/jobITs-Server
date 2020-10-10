@@ -7,12 +7,13 @@ const NoticeService = require('../services/notice');
 const noticeService = new NoticeService(Notices);
 
 router.get('/:id', async (req, res) => {
-  if (typeof req.params.id !== 'number') {
+  const id = parseInt(req.params.id);
+  if (isNaN(id)) {
     return res.status(badRequest.status).send({
       message: badRequest.message
     });
   }
-  const id = parseInt(req.params.id);
+  
   try {
     const result = await noticeService.getOneNotice(id);
     res.send(result);
