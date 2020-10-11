@@ -36,11 +36,10 @@ class NoticeService extends FileService {
 
     notice.createdAt = notice.createdAt.toFormat('YYYY-MM-DD');
     if (notice.file) {
-      notice.file = notice.file.split('-'); 
-    }
-    
-    for(let i = 0; i < notice.file.length; i++) {
-      notice.file[i] = BUCKET_URL + notice.file[i];
+      notice.file = notice.file.split('-');
+      for(let i = 0; i < notice.file.length; i++) {
+        notice.file[i] = BUCKET_URL + notice.file[i];
+      }
     }
     return notice;
   }
