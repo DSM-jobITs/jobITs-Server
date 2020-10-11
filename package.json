@@ -4,7 +4,7 @@
   "description": "Mimanjob Project's Server Repository",
   "main": "app.js",
   "scripts": {
-    "test": "node src/app"
+    "start": "node src/app"
   },
   "repository": {
     "type": "git",
