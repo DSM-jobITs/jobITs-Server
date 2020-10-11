@@ -18,25 +18,6 @@ class FileService {
     return uuid + extension;
   }
 
-  async integrateFileNames(files) {
-    if (!Array.isArray(files)) {
-      files = [files];
-    }
-    const result = await this.uploadFiles(files);
-    if (!result) {
-      return result;
-    }
-    
-    let index = 0;
-    let fileNames = result[index++].toString();
-
-    while (index < result.length) {
-      fileNames = fileNames + '-' + result[index++].toString();
-    }
-
-    return fileNames;
-  }
-
   async uploadFiles(files) {
     if (!Object.keys(files).length) {
       return null;
@@ -56,6 +37,25 @@ class FileService {
     }
 
     return fileNameArray;
+  }
+
+  async integrateFileNames(files) {
+    if (!Array.isArray(files)) {
+      files = [files];
+    }
+    const result = await this.uploadFiles(files);
+    if (!result) {
+      return result;
+    }
+    
+    let index = 0;
+    let fileNames = result[index++].toString();
+
+    while (index < result.length) {
+      fileNames = fileNames + '-' + result[index++].toString();
+    }
+
+    return fileNames;
   }
 }
 
