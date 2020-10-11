@@ -4,7 +4,7 @@ const { badRequest } = require('../errors');
 
 const AWS = require('aws-sdk');
 AWS.config.loadFromPath(__dirname + '/../config/awsconfig.json');
-const { BUCKET_NAME } = require('../config');
+const { BUCKET_NAME, BUCKET_URL } = require('../config');
 const s3 = new AWS.S3();
 
 class FileService {
@@ -63,7 +63,7 @@ class FileService {
     const objects = [];
     for (let i = 0; i < files.length; i++) {
       objects.push({
-        Key: files[i]
+        Key: files[i].replace(BUCKET_URL, '')
       });
     }
 
