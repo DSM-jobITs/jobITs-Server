@@ -27,10 +27,13 @@ class FileService {
       return result;
     }
     
-    let fileNames = '';
-    for (const file of result) {
-      fileNames += file.toString();
+    let index = 0;
+    let fileNames = result[index++].toString();
+
+    while (index < result.length) {
+      fileNames = fileNames + '-' + result[index++].toString();
     }
+
     return fileNames;
   }
 
