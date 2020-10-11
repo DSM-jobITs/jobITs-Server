@@ -45,9 +45,9 @@ router.post('/',  async (req, res) => {
     const fixed = (req.fields.fixed !== 'false');
     const files = await noticeService.integrateFileNames(req.files.files);
 
-    await noticeService.createNotice(title, content, files, fixed);    
+    const noticeId = await noticeService.createNotice(title, content, files, fixed);    
     res.status(201).send({
-      message: '성공적으로 등록되었습니다.'
+      id: noticeId
     });
   } catch (error) {
     res.status(error.status).send({
