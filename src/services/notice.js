@@ -1,5 +1,6 @@
 const FileService = require('./file');
 const { badRequest, notFound } = require('../errors');
+const { BUCKET_URL } = require('../config');
 const isStoredNotice = require('../utils/isStoredNotice');
 const isNotEmpty = require('../utils/isNotEmpty');
 require('date-utils');
@@ -35,9 +36,12 @@ class NoticeService extends FileService {
       attributes: ['title', 'content', 'file', 'createdAt'],
       where: { id: id }
     });
-    
-    result.file = result.file.split('-');
+
     result.createdAt = result.createdAt.toFormat('YYYY-MM-DD');
+    result.file = result.file.split('-');
+    for(let i = 0; i < result.file.length; i++) {
+      result.file[i] = BUCKET_URL + result.file[i];
+    }
     return result;
   }
 
