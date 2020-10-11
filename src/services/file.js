@@ -69,9 +69,9 @@ class FileService {
     const params = {
       Bucket: BUCKET_NAME,
       Delete: {
-        Objects: objects
-      },
-      Quiet: false
+        Objects: objects,
+          Quiet: false
+      }
     };
     await s3.deleteObjects(params).promise();
   }
