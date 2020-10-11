@@ -7,10 +7,19 @@ const NoticeService = require('../services/notice');
 const noticeService = new NoticeService(Notices);
 
 router.get('/', async (req, res) => {
-  const page = parseInt(req.query.page);
-  if (isNaN(page)) {
-    return res.status(badRequest.status).send({
-      message: badRequest.message
+  try {
+    const page = parseInt(req.query.page);
+    if (isNaN(page)) {
+      throw badRequest;
+    }
+
+    const lists = await noticeService.getNotices(page);
+    res.send({
+      lists: lists
+    });
+  } catch (error) {
+    res.status(error.status).send({
+      message: error.message
     });
   }
 });
