@@ -39,7 +39,7 @@ class FileService {
 
   async uploadFiles(files) {
     if (!Object.keys(files).length) {
-      return [null];
+      return null;
     }
 
     const fileNameArray = [];
