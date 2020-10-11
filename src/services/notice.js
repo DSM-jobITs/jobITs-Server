@@ -1,7 +1,6 @@
 const FileService = require('./file');
 const { badRequest, notFound } = require('../errors');
 const { BUCKET_URL } = require('../config');
-const isStoredNotice = require('../utils/isStoredNotice');
 const isNotEmpty = require('../utils/isNotEmpty');
 require('date-utils');
 
@@ -27,15 +26,14 @@ class NoticeService extends FileService {
   }
 
   async getOneNotice(id) {
-    // check id was stored in database
-    if (!await isStoredNotice(id)) {
-      throw notFound;
-    }
-
     const result = await this.noticeModel.findOne({
       attributes: ['title', 'content', 'file', 'createdAt'],
       where: { id: id }
     });
+
+    if (!result) {
+      throw notFound;
+    }
 
     result.createdAt = result.createdAt.toFormat('YYYY-MM-DD');
     result.file = result.file.split('-');
