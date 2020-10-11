@@ -67,7 +67,6 @@ class NoticeService extends FileService {
 
   async deleteNotice(id) {
     const notice = await this.getOneNotice(id);
-    console.log(notice.file);
     if (notice.file) {
       await this.deleteFiles(notice.file);
     }
