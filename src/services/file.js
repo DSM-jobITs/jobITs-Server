@@ -19,7 +19,7 @@ class FileService {
   }
 
   async uploadFiles(files) {
-    if (!Object.keys(files).length) {
+    if (!files[0]) {
       return null;
     }
 
@@ -43,6 +43,7 @@ class FileService {
     if (!Array.isArray(files)) {
       files = [files];
     }
+    
     const result = await this.uploadFiles(files);
     if (!result) {
       return result;
