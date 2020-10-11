@@ -34,18 +34,19 @@ router.get('/:id', async (req, res) => {
 });
 
 router.post('/',  async (req, res) => {
-  if (!Object.keys(req.fields).length) {
-    return res.status(badRequest.status).send({
-      message: badRequest.message
-    });
-  }
-
   try {
-    const { title, content } = req.fields;
-    const fixed = (req.fields.fixed !== 'false');
-    const files = await noticeService.integrateFileNames(req.files.files);
+    if (!Object.keys(req.fields).length) {
+      throw badRequest;
+    }
 
-    const noticeId = await noticeService.createNotice(title, content, files, fixed);    
+    const { title, content } = req.fields;
+    if (req.fields.fixed !== 'false' && req.fields.fixed !== 'true') {
+      throw badRequest;
+    }
+    const fixed = (req.fields.fixed !== 'false');
+    const fileNames = await noticeService.integrateFileNames(req.files.files);
+
+    const noticeId = await noticeService.createNotice(title, content, fileNames, fixed);    
     res.status(201).send({
       id: noticeId
     });
