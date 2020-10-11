@@ -64,4 +64,20 @@ router.post('/',  async (req, res) => {
   }
 });
 
+router.delete('/:id', async (req, res) => {
+  try {
+    const id = parseInt(req.params.id);
+    if (isNaN(id)) {
+      throw badRequest;
+    }
+
+    await noticeService.deleteNotice(id);
+    res.send();
+  } catch (error) {
+    res.status(error.status).send({
+      message: error.message
+    });
+  }
+})
+
 module.exports = router;
