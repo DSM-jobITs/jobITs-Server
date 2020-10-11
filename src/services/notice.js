@@ -35,7 +35,10 @@ class NoticeService extends FileService {
     }
 
     notice.createdAt = notice.createdAt.toFormat('YYYY-MM-DD');
-    notice.file = notice.file.split('-');
+    if (notice.file) {
+      notice.file = notice.file.split('-'); 
+    }
+    
     for(let i = 0; i < notice.file.length; i++) {
       notice.file[i] = BUCKET_URL + notice.file[i];
     }
@@ -65,10 +68,11 @@ class NoticeService extends FileService {
 
   async deleteNotice(id) {
     const notice = await this.getOneNotice(id);
-    await this.deleteFiles(notice.file);
-    await this.noticeModel.destroy({
-      where: { id: id }
-    });
+    console.log(notice.file);
+    // await this.deleteFiles(notice.file);
+    // await this.noticeModel.destroy({
+    //   where: { id: id }
+    // });
   }
 }
 
