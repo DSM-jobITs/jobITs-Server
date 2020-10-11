@@ -18,12 +18,24 @@ class FileService {
     return uuid + extension;
   }
 
-  integrateFileNames(files) {
-
+  async integrateFileNames(files) {
+    if (!Array.isArray(files)) {
+      files = [files];
+    }
+    const result = await this.uploadFiles(files);
+    if (!result) {
+      return result;
+    }
+    
+    let fileNames = '';
+    for (const file of result) {
+      fileNames += file.toString();
+    }
+    return fileNames;
   }
 
   async uploadFiles(files) {
-    if (!files.length) {
+    if (!Object.keys(files).length) {
       return [null];
     }
 
