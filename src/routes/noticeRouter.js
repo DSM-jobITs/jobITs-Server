@@ -16,14 +16,12 @@ router.get('/', async (req, res) => {
 });
 
 router.get('/:id', async (req, res) => {
-  const id = parseInt(req.query.id);
-  if (isNaN(id)) {
-    return res.status(badRequest.status).send({
-      message: badRequest.message
-    });
-  }
-
   try {
+    const id = parseInt(req.params.id);
+    if (isNaN(id)) {
+      throw badRequest;
+    }
+
     const result = await noticeService.getOneNotice(id);
     res.send(result);
   } catch (error) {
