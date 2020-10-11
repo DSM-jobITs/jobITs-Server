@@ -18,12 +18,16 @@ class FileService {
     return uuid + extension;
   }
 
+  integrateFileNames(files) {
+
+  }
+
   async uploadFiles(files) {
     if (!files.length) {
       return [null];
     }
 
-    let fileLocationArray = [];
+    const fileNameArray = [];
     
     for (const file of files) {
       const params = {
@@ -33,10 +37,10 @@ class FileService {
         ACL: 'public-read'
       }
       const data = await s3.upload(params).promise();
-      fileLocationArray.push(data.Location);
+      fileNameArray.push(data.key);
     }
 
-    return fileLocationArray;
+    return fileNameArray;
   }
 }
 
