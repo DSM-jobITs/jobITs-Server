@@ -57,6 +57,24 @@ class FileService {
 
     return fileNames;
   }
+
+  async deleteFiles(files) {
+    const objects = [];
+    for (let i = 0; i < files.length; i++) {
+      objects.push({
+        Key: files[i]
+      });
+    }
+
+    const params = {
+      Bucket: BUCKET_NAME,
+      Delete: {
+        Objects: objects
+      },
+      Quiet: false
+    };
+    await s3.deleteObjects(params).promise();
+  }
 }
 
 module.exports = FileService;
