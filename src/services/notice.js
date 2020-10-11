@@ -66,7 +66,7 @@ class NoticeService extends FileService {
   async deleteNotice(id) {
     const notice = await this.getOneNotice(id);
     await this.deleteFiles(notice.file);
-    await this.noticeModel.destory({
+    await this.noticeModel.destroy({
       where: { id: id }
     });
   }
