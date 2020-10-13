@@ -19,9 +19,10 @@ router.get('/', async (req, res) => {
     // field 값이 없다면 모든 field를 가져올 수 있게 하기 위해 false를 대입
     // mysql의 모든 문자열은 boolean으로 바꾸면 false이다.
     const field = req.query.field ? req.query.field : false;
+    const keyword = req.query.keyword;
     const maxShow = 6;
   
-    const results = await interview.getInterviewQuestions(page, field, maxShow);
+    const results = await interview.getInterviewQuestions(page, field, keyword, maxShow);
     res.send({
       lists: results
     });
