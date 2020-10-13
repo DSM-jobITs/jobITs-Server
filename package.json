@@ -4,7 +4,8 @@
   "description": "Mimanjob Project's Server Repository",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha src/tests",
+    "start": "node src/app"
   },
   "repository": {
     "type": "git",
@@ -17,6 +18,13 @@
   },
   "homepage": "https://github.com/DSM-jobITs/jobITs-Server#readme",
   "dependencies": {
-    "express": "^4.17.1"
+    "date-utils": "^1.2.21",
+    "express": "^4.17.1",
+    "mysql2": "^2.2.5",
+    "sequelize": "^6.3.5"
+  },
+  "devDependencies": {
+    "dotenv": "^8.2.0",
+    "mocha": "^8.1.3"
   }
 }
