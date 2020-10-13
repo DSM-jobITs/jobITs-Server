@@ -11,7 +11,7 @@ class FileService {
   constructor(fileMappingModel) {
     this.fileMappingModel = fileMappingModel;
   }
-  
+
   makeFileKey(file) {
     if (!file) {
       throw badRequest;
@@ -30,17 +30,19 @@ class FileService {
     const fileNameArray = [];
     
     for (const file of files) {
-      const params = {
-        Bucket: BUCKET_NAME,
-        Key: this.makeFileKey(file),
-        Body: file.path,
-        ACL: 'public-read'
-      }
-      const data = await s3.upload(params).promise();
-      fileNameArray.push(data.key);
+      const fileName = file.name;
+      const fileUuid = this.makeFileKey(file);
+      // const params = {
+      //   Bucket: BUCKET_NAME,
+      //   Key: this.makeFileKey(file),
+      //   Body: file.path,
+      //   ACL: 'public-read'
+      // }
+      // const data = await s3.upload(params).promise();
+      // fileNameArray.push(data.key);
     }
 
-    return fileNameArray;
+    // return fileNameArray;
   }
 
   async integrateFileNames(files) {
