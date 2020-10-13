@@ -25,13 +25,13 @@ router.get('/', async (req, res) => {
     
     const results = await interview.getInterviewQuestions(page, field, keyword, maxShow);
     res.send({
-      lists: results
+      lists: results,
+      field: field
     });
   } catch (error) {
-    // res.status(error.status).send({
-    //   message: error.message
-    // });
-    console.error(error);
+    res.status(error.status).send({
+      message: error.message
+    });
   }
 });
 
