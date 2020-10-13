@@ -6,8 +6,8 @@ function isEmptyObject(object) {
   return !Object.keys(object).length;
 }
 
-function isObjectArg(object) {
-  return isObject() || isEmptyObject(object);
+function isNotObjectArg(object) {
+  return !isObject() || isEmptyObject(object);
 }
 
-module.exports = isObjectArg;
+module.exports = isNotObjectArg;
