@@ -2,9 +2,9 @@ const express = require('express');
 const router = express.Router();
 const { badRequest } = require('../errors');
 
-const Notices = require('../models/notice');
+const { Notices, FileMappings } = require('../models');
 const NoticeService = require('../services/notice');
-const noticeService = new NoticeService(Notices);
+const noticeService = new NoticeService(Notices, FileMappings);
 
 router.get('/', async (req, res) => {
   try {
