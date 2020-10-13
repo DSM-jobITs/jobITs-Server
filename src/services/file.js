@@ -19,7 +19,7 @@ class FileService {
   }
 
   async uploadFiles(files) {
-    if (!files[0]) {
+    if (!files[0] || typeof files[0] !== 'string') {
       return null;
     }
 
@@ -59,23 +59,23 @@ class FileService {
     return fileNames;
   }
 
-  async deleteFiles(files) {
-    const objects = [];
-    for (let i = 0; i < files.length; i++) {
-      objects.push({
-        Key: files[i].replace(BUCKET_URL, '')
-      });
-    }
+  // async deleteFiles(files) {
+  //   const objects = [];
+  //   for (let i = 0; i < files.length; i++) {
+  //     objects.push({
+  //       Key: files[i].replace(BUCKET_URL, '')
+  //     });
+  //   }
 
-    const params = {
-      Bucket: BUCKET_NAME,
-      Delete: {
-        Objects: objects,
-          Quiet: false
-      }
-    };
-    await s3.deleteObjects(params).promise();
-  }
+  //   const params = {
+  //     Bucket: BUCKET_NAME,
+  //     Delete: {
+  //       Objects: objects,
+  //         Quiet: false
+  //     }
+  //   };
+  //   await s3.deleteObjects(params).promise();
+  // }
 }
 
 module.exports = FileService;
