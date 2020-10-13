@@ -17,9 +17,6 @@ Notices.init({
     type: DataTypes.STRING(2000),
     allowNull: false
   },
-  file: {
-    type: DataTypes.STRING(400)
-  },
   fixed: {
     type: DataTypes.BOOLEAN,
     allowNull: false,
