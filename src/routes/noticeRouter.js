@@ -42,7 +42,7 @@ router.get('/:id', async (req, res) => {
 
 router.post('/',  async (req, res) => {
   try {
-    if (!Object.keys(req.fields).length) {
+    if (req.fields.constructor !== Object || !Object.keys(req.fields).length) {
       throw badRequest;
     }
 
