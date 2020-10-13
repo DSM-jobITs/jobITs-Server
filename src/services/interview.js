@@ -1,19 +1,31 @@
 const { badRequest, notFound } = require('../errors');
+const { Op } = require('sequelize');
 
 class InterviewService {
   constructor(interviewModel) {
     this.interviewModel = interviewModel;
   }
 
-  async getInterviewQuestions(page, field, maxShow) {
-    if (!page) {
+  async getInterviewQuestions(page, field, keyword, maxShow) {
+    if (typeof page !== 'number' || page < 1) {
+      throw badRequest;
+    }
+    if (typeof keyword !== 'string') {
+      throw badRequest;
+    }
+    if (typeof maxShow !== 'number' || maxShow < 1) {
       throw badRequest;
     }
     
     const results = await this.interviewModel.findAll({
-      where: { field: field },
+      where: {
+        field: field,
+        content: {
+          [Op.like]: '%' + keyword + '%'
+        }
+      },
       limit: maxShow,
-      offset: (page - 1) * 10
+      offset: (page - 1) * maxShow
     });
 
     if (!results.length) {
