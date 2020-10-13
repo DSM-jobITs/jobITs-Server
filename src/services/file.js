@@ -8,6 +8,10 @@ const { BUCKET_NAME, BUCKET_URL } = require('../config');
 const s3 = new AWS.S3();
 
 class FileService {
+  constructor(fileMappingModel) {
+    this.fileMappingModel = fileMappingModel;
+  }
+  
   makeFileKey(file) {
     if (!file) {
       throw badRequest;
