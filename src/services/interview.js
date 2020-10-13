@@ -13,7 +13,7 @@ class InterviewService {
     const results = await this.interviewModel.findAll({
       where: { field: field },
       limit: maxShow,
-      offset: page - 1
+      offset: (page - 1) * 10
     });
 
     if (!results.length) {
