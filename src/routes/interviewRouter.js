@@ -48,17 +48,22 @@ router.post('/', async (req, res) => {
   }
 });
 
-// router.put('/:id', async (req, res) => {
-//   const id = req.params.id;
-//   const { content, field } = req.body;
-
-//   try {
-//     await interview.modifyInterviewQuestion(id, content, field);
-//     res.send({ message: '수정되었습니다.' });
-//   } catch (error) {
-//     res.status(error.status).send({ message: error.message });
-//   }
-// });
+router.put('/:id', async (req, res) => {
+  try {
+    if (!Object.keys(req.body).length) {
+      throw badRequest;
+    }
+    const { content, field } = req.body;
+    const id = parseInt(req.params.id);
+    
+    await interview.modifyInterviewQuestion(id, content, field);
+    res.send();
+  } catch (error) {
+    res.status(error.status).send({
+      message: error.message
+    });
+  }
+});
 
 // router.delete('/:id', async (req, res) => {
 //   const id = req.params.id;
