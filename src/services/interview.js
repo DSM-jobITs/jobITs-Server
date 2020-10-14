@@ -10,6 +10,9 @@ class InterviewService {
     if (typeof page !== 'number' || page < 1) {
       throw badRequest;
     }
+    if (typeof field !== 'string' && field !== false) {
+      throw badRequest;
+    }
     if (typeof keyword !== 'string') {
       throw badRequest;
     }
