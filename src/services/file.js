@@ -22,48 +22,66 @@ class FileService {
     return uuid + extension;
   }
 
-  async uploadFiles(files) {
-    if (!files[0] || typeof files[0] !== 'string') {
-      return null;
+  async InsertFileName(noticeId, originalName, fileName) {
+    if (typeof noticeId !== 'number' || noticeId < 1) {
+      throw badRequest;
+    }
+    if (typeof originalName !== 'string' || !originalName) {
+      throw badRequest;
+    }
+    if (typeof fileName !== 'string' || !fileName) {
+      throw badRequest;
     }
 
-    const fileNameArray = [];
-    
-    for (const file of files) {
-      const fileName = file.name;
-      const fileUuid = this.makeFileKey(file);
-      // const params = {
-      //   Bucket: BUCKET_NAME,
-      //   Key: this.makeFileKey(file),
-      //   Body: file.path,
-      //   ACL: 'public-read'
-      // }
-      // const data = await s3.upload(params).promise();
-      // fileNameArray.push(data.key);
-    }
-
-    // return fileNameArray;
+    await this.fileMappingModel.create({
+      filename: originalName,
+      uuid: fiileName,
+      noticeId: noticeId
+    });
   }
 
-  async integrateFileNames(files) {
+  async uploadFiles(noticeId, files) {
     if (!Array.isArray(files)) {
       files = [files];
     }
-    
-    const result = await this.uploadFiles(files);
-    if (!result) {
-      return result;
-    }
-    
-    let index = 0;
-    let fileNames = result[index++].toString();
-
-    while (index < result.length) {
-      fileNames = fileNames + '-' + result[index++].toString();
+    if (!files[0] || !Object.keys(files[0]).length) {
+      return null;
     }
 
-    return fileNames;
+    for (const file of files) {
+      const fileName = file.name;
+      const fileUuid = this.makeFileKey(file);
+      const params = {
+        Bucket: BUCKET_NAME,
+        Key: fileUuid,
+        Body: file.path,
+        ACL: 'public-read'
+      }
+      await s3.upload(params).promise();
+      await this.InsertFileName(noticeId, fileName, fileUuid);
+    }
   }
+  
+  // async integrateFileNames(files) {
+  //   if (!Array.isArray(files)) {
+  //     files = [files];
+  //   }
+    
+  //   const result = await this.uploadFiles(files);
+  //   if (!result) {
+  //     return result;
+  //   }
+    
+  //   return result;
+    // let index = 0;
+    // let fileNames = result[index++].toString();
+
+    // while (index < result.length) {
+    //   fileNames = fileNames + '-' + result[index++].toString();
+    // }
+
+    // return fileNames;
+  // }
 
   // async deleteFiles(files) {
   //   const objects = [];
