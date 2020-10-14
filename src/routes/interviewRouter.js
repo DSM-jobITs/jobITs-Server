@@ -32,16 +32,21 @@ router.get('/', async (req, res) => {
   }
 });
 
-// router.post('/', async (req, res) => {
-//   const { contents, field } = req.body;
-
-//   try {
-//     await interview.registerInterviewQuestions(contents, field);
-//     res.status(201).send({ message: '성공적으로 면접 질문을 등록하였습니다.' });
-//   } catch (error) {
-//     res.status(error.status).send({ message: error.message });
-//   }
-// });
+router.post('/', async (req, res) => {
+  try {
+    if (!Object.keys(req.body).length) {
+      throw badRequest;
+    }
+    const { contents, field } = req.body;
+    
+    await interview.registerInterviewQuestions(contents, field);
+    res.status(201).send();
+  } catch (error) {
+    res.status(error.status).send({
+      message: error.message
+    });
+  }
+});
 
 // router.put('/:id', async (req, res) => {
 //   const id = req.params.id;
