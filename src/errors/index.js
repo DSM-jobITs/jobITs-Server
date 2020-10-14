@@ -5,8 +5,8 @@ class HttpError extends Error {
   }
 }
 
-const badRequest = new HttpError(400, '올바르지 않은 요청입니다.');
-const notFound = new HttpError(404, '게시물을 찾을 수 없습니다.');
+const badRequest = new HttpError(400, 'It is a bad request.');
+const notFound = new HttpError(404, 'We couldn\'t find out any interview question.');
 
 module.exports = {
   badRequest,
