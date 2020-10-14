@@ -44,16 +44,23 @@ class InterviewService {
   }
 
   async registerInterviewQuestions(contents, field) {
-    if (!questions.length || !field) {
+    if (!Array.isArray(contents) || !contents.length) {
       throw badRequest;
     }
+    if (typeof field !== 'string') {
+      throw badRequest;
+    }
+    
+    for (let content of contents) {
+      if (typeof content !== 'string') {
+        throw badRequest;
+      }
 
-    contents.forEach(async (content) => {
       await this.interviewModel.create({
         content: content,
         field: field
       });
-    });
+    }
   }
 
   async isStored(id) {
