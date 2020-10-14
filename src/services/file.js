@@ -35,7 +35,7 @@ class FileService {
 
     await this.fileMappingModel.create({
       filename: originalName,
-      uuid: fiileName,
+      uuid: fileName,
       noticeId: noticeId
     });
   }
