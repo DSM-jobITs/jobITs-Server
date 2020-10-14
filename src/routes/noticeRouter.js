@@ -59,10 +59,9 @@ router.post('/',  async (req, res) => {
       id: noticeId
     });
   } catch (error) {
-    console.error(error);
-    // res.status(error.status).send({
-    //   message: error.message
-    // });
+    res.status(error.status).send({
+      message: error.message
+    });
   }
 });
 
