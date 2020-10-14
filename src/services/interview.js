@@ -80,7 +80,7 @@ class InterviewService {
     if (typeof field !== 'string' || !field) {
       throw badRequest;
     }
-    
+
     if (!await this.isStored(id)) {
       throw notFound;
     }
@@ -94,7 +94,7 @@ class InterviewService {
   }
 
   async removeInterviewQuestion(id) {
-    if (!id) {
+    if (typeof id !== 'number' || id < 1) {
       throw badRequest;
     }
 
