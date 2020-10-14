@@ -9,20 +9,25 @@ class NoticeService extends FileService {
     this.noticeModel = noticeModel;
   }
 
-  // async createNotice(title, content, fileNames, fixed) {
-  //   if ((typeof title !== 'string') || (typeof content !== 'string') || (typeof fixed !== 'boolean')) {
-  //     throw badRequest;
-  //   }
+  async createNotice(title, content, fixed) {
+    if (typeof title !== 'string' || !title) {
+      throw badRequest;
+    }
+    if (typeof content !== 'string' || !content) {
+      throw badRequest;
+    }
+    if (typeof fixed !== 'boolean') {
+      throw badRequest;
+    }
 
-  //   const result = await this.noticeModel.create({
-  //     title: title,
-  //     content: content,
-  //     file: fileNames,
-  //     fixed: fixed
-  //   });
+    const result = await this.noticeModel.create({
+      title: title,
+      content: content,
+      fixed: fixed
+    });
 
-  //   return result['id'];
-  // }
+    return result['id'];
+  }
 
   // async getOneNotice(id) {
   //   const notice = await this.noticeModel.findOne({
