@@ -13,9 +13,6 @@ router.get('/', async (req, res) => {
     if(!Object.keys(req.query).length) {
       throw badRequest;
     }
-    if(req.query.field && typeof req.query.field !== 'string') {
-      throw badRequest;
-    }
     const page = parseInt(req.query.page);
     // field 값이 없다면 모든 field를 가져올 수 있게 하기 위해 false를 대입
     // mysql의 모든 문자열은 boolean으로 바꾸면 false이다.
