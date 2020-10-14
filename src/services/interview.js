@@ -71,10 +71,16 @@ class InterviewService {
   }
 
   async modifyInterviewQuestion(id, content, field) {
-    if (!id || !content || !field) {
+    if (typeof id !== 'number' || id < 1) {
       throw badRequest;
     }
-
+    if (typeof content !== 'string' || !content) {
+      throw badRequest;
+    }
+    if (typeof field !== 'string' || !field) {
+      throw badRequest;
+    }
+    
     if (!await this.isStored(id)) {
       throw notFound;
     }
