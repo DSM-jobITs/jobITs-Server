@@ -20,7 +20,7 @@ class InterviewService {
       throw badRequest;
     }
     
-    const results = await this.interviewModel.findAll({,
+    const results = await this.interviewModel.findAll({
       attributes: ['id', 'content', 'createdAt'],
       where: {
         field: field,
