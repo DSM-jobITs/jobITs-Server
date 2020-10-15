@@ -1,19 +1,35 @@
 const { badRequest, notFound } = require('../errors');
+const { Op } = require('sequelize');
 
 class InterviewService {
   constructor(interviewModel) {
     this.interviewModel = interviewModel;
   }
 
-  async getInterviewQuestions(page, field, maxShow) {
-    if (!page) {
+  async getInterviewQuestions(page, field, keyword, maxShow) {
+    if (typeof page !== 'number' || page < 1) {
+      throw badRequest;
+    }
+    if (typeof field !== 'string' && field !== false) {
+      throw badRequest;
+    }
+    if (typeof keyword !== 'string') {
+      throw badRequest;
+    }
+    if (typeof maxShow !== 'number' || maxShow < 1) {
       throw badRequest;
     }
     
     const results = await this.interviewModel.findAll({
-      where: { field: field },
+      attributes: ['id', 'content', 'createdAt'],
+      where: {
+        field: field,
+        content: {
+          [Op.like]: '%' + keyword + '%'
+        }
+      },
       limit: maxShow,
-      offset: (page - 1) * 10
+      offset: (page - 1) * maxShow
     });
 
     if (!results.length) {
@@ -28,16 +44,23 @@ class InterviewService {
   }
 
   async registerInterviewQuestions(contents, field) {
-    if (!questions.length || !field) {
+    if (!Array.isArray(contents) || !contents.length) {
       throw badRequest;
     }
+    if (typeof field !== 'string') {
+      throw badRequest;
+    }
+    
+    for (let content of contents) {
+      if (typeof content !== 'string') {
+        throw badRequest;
+      }
 
-    contents.forEach(async (content) => {
       await this.interviewModel.create({
         content: content,
         field: field
       });
-    });
+    }
   }
 
   async isStored(id) {
@@ -48,7 +71,13 @@ class InterviewService {
   }
 
   async modifyInterviewQuestion(id, content, field) {
-    if (!id || !content || !field) {
+    if (typeof id !== 'number' || id < 1) {
+      throw badRequest;
+    }
+    if (typeof content !== 'string' || !content) {
+      throw badRequest;
+    }
+    if (typeof field !== 'string' || !field) {
       throw badRequest;
     }
 
@@ -65,7 +94,7 @@ class InterviewService {
   }
 
   async removeInterviewQuestion(id) {
-    if (!id) {
+    if (typeof id !== 'number' || id < 1) {
       throw badRequest;
     }
 
