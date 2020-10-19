@@ -1,5 +1,6 @@
 const { badRequest, notFound } = require('../errors');
 const { Op } = require('sequelize');
+const MAX_CONTENT_LEN = 150;
 
 class InterviewService {
   constructor(interviewModel) {
@@ -52,7 +53,7 @@ class InterviewService {
     }
     
     for (let content of contents) {
-      if (typeof content !== 'string') {
+      if (typeof content !== 'string' || !content ||content.length > MAX_CONTENT_LEN) {
         throw badRequest;
       }
 
@@ -74,7 +75,7 @@ class InterviewService {
     if (typeof id !== 'number' || id < 1) {
       throw badRequest;
     }
-    if (typeof content !== 'string' || !content) {
+    if (typeof content !== 'string' || !content || content.length > MAX_CONTENT_LEN) {
       throw badRequest;
     }
     if (typeof field !== 'string' || !field) {
