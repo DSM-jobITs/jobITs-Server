@@ -11,7 +11,7 @@ Interviews.init({
     primaryKey: true
   },
   content: {
-    type: DataTypes.STRING(100),
+    type: DataTypes.STRING(150),
     allowNull: false
   },
   createdAt: {
