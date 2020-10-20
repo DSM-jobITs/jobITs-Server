@@ -74,23 +74,39 @@ class FileService {
     }
   }
 
-  // async deleteFiles(files) {
-  //   const objects = [];
-  //   for (let i = 0; i < files.length; i++) {
-  //     objects.push({
-  //       Key: files[i].replace(BUCKET_URL, '')
-  //     });
-  //   }
+  async deleteFileMap(noticeId) {
+    await this.fileMappingModel.destroy({
+      where: { noticeId: noticeId }
+    });
+  }
 
-  //   const params = {
-  //     Bucket: BUCKET_NAME,
-  //     Delete: {
-  //       Objects: objects,
-  //         Quiet: false
-  //     }
-  //   };
-  //   await s3.deleteObjects(params).promise();
-  // }
+  async deleteFiles(noticeId) {
+    const files = await this.fileMappingModel.findAll({
+      attributes: ['uuid'],
+      where: { noticeId: noticeId }
+    });
+
+    if (!files.length) {
+      return;
+    }
+
+    const objects = [];
+    for (const file of files) {
+      objects.push({
+        Key: file.uuid
+      });
+    }
+
+    const params = {
+      Bucket: BUCKET_NAME,
+      Delete: {
+        Objects: objects,
+          Quiet: false
+      }
+    };
+    await s3.deleteObjects(params).promise();
+    await this.deleteFileMap(noticeId);
+  }
 }
 
 module.exports = FileService;
