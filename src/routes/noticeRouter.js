@@ -24,21 +24,21 @@ const noticeService = new NoticeService(Notices, FileMappings);
 //   }
 // });
 
-// router.get('/:id', async (req, res) => {
-//   try {
-//     const id = parseInt(req.params.id);
-//     if (isNaN(id)) {
-//       throw badRequest;
-//     }
+router.get('/:id', async (req, res) => {
+  try {
+    const id = parseInt(req.params.id);
+    if (isNaN(id)) {
+      throw badRequest;
+    }
 
-//     const result = await noticeService.getOneNotice(id);
-//     res.send(result);
-//   } catch (error) {
-//     res.status(error.status).send({
-//       message: error.message
-//     });
-//   }
-// });
+    const result = await noticeService.getOneNotice(id);
+    res.send(result);
+  } catch (error) {
+    res.status(error.status).send({
+      message: error.message
+    });
+  }
+});
 
 router.post('/',  async (req, res) => {
   try {
