@@ -15,7 +15,7 @@ class FileService {
   async getFiles(noticeId) {
     try {
       return await this.fileMappingModel.findAll({
-        attributes: ['filename', 'uuid'],
+        attributes: ['filename', ['uuid', 'url']],
         where: { noticeId: noticeId }
       });
     } catch (error) {
