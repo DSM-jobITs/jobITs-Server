@@ -61,6 +61,9 @@ class NoticeService extends FileService {
 
     const lists =  await this.noticeModel.findAll({
       attributes: ['title', 'createdAt'],
+      order: [
+        ['fixed', 'DESC']
+      ],
       offset: (page - 1) * maxShow,
       limit: maxShow
     });
