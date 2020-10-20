@@ -12,6 +12,18 @@ class FileService {
     this.fileMappingModel = fileMappingModel;
   }
 
+  async getFiles(noticeId) {
+    try {
+      await this.fileMappingModel.findAll({
+        attributes: ['filename', 'uuid'],
+        where: { noticeId: noticeId }
+      });
+    } catch (error) {
+      error.status = 500;
+      throw error;
+    }
+  }
+
   makeFileKey(file) {
     if (!file) {
       throw badRequest;
@@ -61,27 +73,6 @@ class FileService {
       await this.InsertFileName(noticeId, fileName, fileUuid);
     }
   }
-  
-  // async integrateFileNames(files) {
-  //   if (!Array.isArray(files)) {
-  //     files = [files];
-  //   }
-    
-  //   const result = await this.uploadFiles(files);
-  //   if (!result) {
-  //     return result;
-  //   }
-    
-  //   return result;
-    // let index = 0;
-    // let fileNames = result[index++].toString();
-
-    // while (index < result.length) {
-    //   fileNames = fileNames + '-' + result[index++].toString();
-    // }
-
-    // return fileNames;
-  // }
 
   // async deleteFiles(files) {
   //   const objects = [];
