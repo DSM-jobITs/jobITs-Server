@@ -43,9 +43,7 @@ class NoticeService extends FileService {
 
     const files =  await this.getFiles(notice.id);
     for (const file of files) {
-      file.uuid = BUCKET_URL + file.uuid;
-      file.dataValues.url = file.uuid;
-      delete file.dataValues.uuid;
+      file.url = BUCKET_URL + file.url;
     }
 
     delete notice.dataValues.id;
@@ -53,26 +51,28 @@ class NoticeService extends FileService {
     return notice;
   }
 
-  // async getNotices(page) {
-  //   if (page < 1) {
-  //     throw badRequest;
-  //   }
+  async getNotices(page, maxShow) {
+    if (typeof page !== 'number' || page < 1) {
+      throw badRequest;
+    }
+    if (typeof maxShow !== 'number' || maxShow < 1) {
+      throw badRequest;
+    }
 
-  //   // 페이지네이션 10개로 고정해 둔 상황
-  //   const lists =  await this.noticeModel.findAll({
-  //     attributes: ['title', 'createdAt'],
-  //     offset: (page - 1) * 10,
-  //     limit: 10
-  //   });
+    const lists =  await this.noticeModel.findAll({
+      attributes: ['title', 'createdAt'],
+      offset: (page - 1) * maxShow,
+      limit: maxShow
+    });
 
-  //   if (!lists.length) {
-  //     throw notFound;
-  //   }
-  //   for (let i = 0; i < lists.length; i++) {
-  //     lists[i].createdAt = lists[i].createdAt.toFormat('YYYY-MM-DD');
-  //   }
-  //   return lists;
-  // }
+    if (!lists.length) {
+      throw notFound;
+    }
+    for (let i = 0; i < lists.length; i++) {
+      lists[i].createdAt = lists[i].createdAt.toFormat('YYYY-MM-DD');
+    }
+    return lists;
+  }
 
   // async deleteNotice(id) {
   //   const notice = await this.getOneNotice(id);
