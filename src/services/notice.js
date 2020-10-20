@@ -1,6 +1,7 @@
 const FileService = require('./file');
 const { badRequest, notFound } = require('../errors');
 const { BUCKET_URL } = require('../config');
+const { MAX_TITLE_LEN, MAX_CONTENT_LEN } = require('../models/notice');
 require('date-utils');
 
 class NoticeService extends FileService {
@@ -10,10 +11,10 @@ class NoticeService extends FileService {
   }
 
   async createNotice(title, content, fixed) {
-    if (typeof title !== 'string' || !title) {
+    if (typeof title !== 'string' || !title || title.length > MAX_TITLE_LEN) {
       throw badRequest;
     }
-    if (typeof content !== 'string' || !content) {
+    if (typeof content !== 'string' || !content || content.length > MAX_CONTENT_LEN) {
       throw badRequest;
     }
     if (typeof fixed !== 'boolean') {
