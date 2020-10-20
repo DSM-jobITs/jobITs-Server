@@ -30,25 +30,28 @@ class NoticeService extends FileService {
     return result['id'];
   }
 
-  // async getOneNotice(id) {
-  //   const notice = await this.noticeModel.findOne({
-  //     attributes: ['title', 'content', 'file', 'createdAt'],
-  //     where: { id: id }
-  //   });
+  async getOneNotice(id) {
+    const notice = await this.noticeModel.findOne({
+      attributes: ['id', 'title', 'content', 'createdAt'],
+      where: { id: id }
+    });
 
-  //   if (!notice) {
-  //     throw notFound;
-  //   }
+    if (!notice) {
+      throw notFound;
+    }
+    notice.createdAt = notice.createdAt.toFormat('YYYY-MM-DD');
 
-  //   notice.createdAt = notice.createdAt.toFormat('YYYY-MM-DD');
-  //   if (notice.file) {
-  //     notice.file = notice.file.split('-');
-  //     for(let i = 0; i < notice.file.length; i++) {
-  //       notice.file[i] = BUCKET_URL + notice.file[i];
-  //     }
-  //   }
-  //   return notice;
-  // }
+    const files =  await this.getFiles(notice.id);
+    for (const file of files) {
+      file.uuid = BUCKET_URL + file.uuid;
+      file.dataValues.url = file.uuid;
+      delete file.dataValues.uuid;
+    }
+
+    delete notice.dataValues.id;
+    notice.dataValues.files = files;
+    return notice;
+  }
 
   // async getNotices(page) {
   //   if (page < 1) {
