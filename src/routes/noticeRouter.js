@@ -66,6 +66,19 @@ router.post('/',  async (req, res) => {
   }
 });
 
+router.put('/:id', async (req, res) => {
+  try {
+    const id = parseInt(req.params.id);
+    if (isNaN(id)) {
+      throw badRequest;
+    }
+  } catch (error) {
+    res.status(error.status).send({
+      message: error.message
+    });
+  }
+})
+
 router.delete('/:id', async (req, res) => {
   try {
     const id = parseInt(req.params.id);
