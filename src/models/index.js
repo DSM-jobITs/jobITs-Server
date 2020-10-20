@@ -1,4 +1,4 @@
-const Notices = require('./notice');
+const { Notices } = require('./notice');
 const FileMappings = require('./fileMappings');
 
 Notices.hasMany(FileMappings, {
