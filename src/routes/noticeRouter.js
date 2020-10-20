@@ -6,23 +6,24 @@ const { Notices, FileMappings } = require('../models');
 const NoticeService = require('../services/notice');
 const noticeService = new NoticeService(Notices, FileMappings);
 
-// router.get('/', async (req, res) => {
-//   try {
-//     const page = parseInt(req.query.page);
-//     if (isNaN(page)) {
-//       throw badRequest;
-//     }
-
-//     const lists = await noticeService.getNotices(page);
-//     res.send({
-//       lists: lists
-//     });
-//   } catch (error) {
-//     res.status(error.status).send({
-//       message: error.message
-//     });
-//   }
-// });
+router.get('/', async (req, res) => {
+  try {
+    const page = parseInt(req.query.page);
+    if (isNaN(page)) {
+      throw badRequest;
+    }
+    const maxShow = 6;  // pagenation 현재는 고정값
+    
+    const lists = await noticeService.getNotices(page, maxShow);
+    res.send({
+      lists: lists
+    });
+  } catch (error) {
+    res.status(error.status).send({
+      message: error.message
+    });
+  }
+});
 
 router.get('/:id', async (req, res) => {
   try {
