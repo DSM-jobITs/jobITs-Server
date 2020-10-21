@@ -56,7 +56,7 @@ class FileService {
     if (!Array.isArray(files)) {
       files = [files];
     }
-    if (!files[0] || !Object.keys(files[0]).length) {
+    if (typeof files[0] !== 'object' || !files[0] || !Object.keys(files[0]).length) {
       return;
     }
 
