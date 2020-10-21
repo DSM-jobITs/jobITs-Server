@@ -29,6 +29,9 @@ class InterviewService {
           [Op.like]: '%' + keyword + '%'
         }
       },
+      order: [
+        ['createdAt', 'DESC']
+      ],
       limit: maxShow,
       offset: (page - 1) * maxShow
     });
