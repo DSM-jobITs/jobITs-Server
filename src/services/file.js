@@ -57,7 +57,7 @@ class FileService {
       files = [files];
     }
     if (!files[0] || !Object.keys(files[0]).length) {
-      return null;
+      return;
     }
 
     for (const file of files) {
@@ -72,6 +72,17 @@ class FileService {
       await s3.upload(params).promise();
       await this.InsertFileName(noticeId, fileName, fileUuid);
     }
+  }
+
+  async updateFileMap(fileMapId, noticeId) {
+    if (typeof fileMapId !== 'number' || fileMapId < 1) {
+      throw badRequest;
+    }
+    if (typeof noticeId !== 'number' || noticeId < 1) {
+      throw badRequest;
+    }
+
+    
   }
 
   async deleteFileMap(noticeId) {
