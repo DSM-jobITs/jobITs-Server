@@ -72,6 +72,17 @@ router.put('/:id', async (req, res) => {
     if (isNaN(id)) {
       throw badRequest;
     }
+    if (!Object.keys(req.fields).length) {
+      throw badRequest;
+    }
+    if (req.fields.fixed !== 'false' && req.fields.fixed !== 'true') {
+      throw badRequest;
+    }
+    const { title, content } = req.fields;
+    const fixed = (req.fields.fixed !== 'false');
+
+    await noticeService.updateNotice(id, title, content, fixed, req.files.files);
+    res.send();
   } catch (error) {
     res.status(error.status).send({
       message: error.message
