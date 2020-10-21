@@ -78,16 +78,31 @@ class NoticeService extends FileService {
     return lists;
   }
 
-  async updateNotice(noticeId) {
+  async updateNotice(noticeId, title, content, fixed, files) {
     if (typeof noticeId !== 'number' || noticeId < 1) {
       throw badRequest;
     }
-    const isDelete = await this.noticeModel.destroy({
-      where: { id: noticeId }
-    });
-    if (!isDelete) {
-      return;  // 삭제한 행이 0개라면 데이터가 없다는 뜻이므로 return
+    if (typeof title !== 'string' || !title || title.length > MAX_TITLE_LEN) {
+      throw badRequest;
     }
+    if (typeof content !== 'string' || !content || content.length > MAX_CONTENT_LEN) {
+      throw badRequest;
+    }
+    if (typeof fixed !== 'boolean') {
+      throw badRequest;
+    }
+    if (!await isStored(noticeId)) {
+      throw notFound;
+    }
+
+    await this.deleteNotice(noticeId);
+    await this.noticeModel.create({
+      id: noticeId,
+      title: title,
+      content: content,
+      fixed: fixed
+    });
+    await this.uploadFiles(files);
   }
 
   async deleteNotice(noticeId) {
