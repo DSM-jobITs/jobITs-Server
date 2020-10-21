@@ -2,6 +2,7 @@ const FileService = require('./file');
 const { badRequest, notFound } = require('../errors');
 const { BUCKET_URL } = require('../config');
 const { MAX_TITLE_LEN, MAX_CONTENT_LEN } = require('../models/notice');
+const isStored = require('../utils/isStored');
 require('date-utils');
 
 class NoticeService extends FileService {
@@ -77,9 +78,24 @@ class NoticeService extends FileService {
     return lists;
   }
 
+  async updateNotice(noticeId) {
+    if (typeof noticeId !== 'number' || noticeId < 1) {
+      throw badRequest;
+    }
+    const isDelete = await this.noticeModel.destroy({
+      where: { id: noticeId }
+    });
+    if (!isDelete) {
+      return;  // 삭제한 행이 0개라면 데이터가 없다는 뜻이므로 return
+    }
+  }
+
   async deleteNotice(noticeId) {
     if (typeof noticeId !== 'number' || noticeId < 1) {
       throw badRequest;
+    }
+    if (!await isStored(noticeId)) {
+      throw notFound;
     }
     await this.deleteFiles(noticeId);
     await this.noticeModel.destroy({
