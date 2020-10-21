@@ -102,7 +102,7 @@ class NoticeService extends FileService {
       content: content,
       fixed: fixed
     });
-    await this.uploadFiles(files);
+    await this.uploadFiles(noticeId, files);
   }
 
   async deleteNotice(noticeId) {
