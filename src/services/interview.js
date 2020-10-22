@@ -30,7 +30,7 @@ class InterviewService {
         }
       },
       order: [
-        ['createdAt', 'DESC']
+        ['id', 'DESC']
       ],
       limit: maxShow,
       offset: (page - 1) * maxShow
