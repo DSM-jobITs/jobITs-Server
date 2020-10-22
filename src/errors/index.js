@@ -6,7 +6,7 @@ class HttpError extends Error {
 }
 
 const badRequest = new HttpError(400, 'It is a bad request.');
-const notFound = new HttpError(404, 'We couldn\'t find out any interview question.');
+const notFound = new HttpError(404, 'Not found');
 
 module.exports = {
   badRequest,
