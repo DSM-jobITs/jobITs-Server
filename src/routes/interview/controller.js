@@ -23,7 +23,7 @@ const getInterviewList = async (req, res) => {
     
     res.send({
       lists: results,
-      field: field ? field : undefinedgetIn
+      field: field ? field : undefined
     });
   } catch (error) {
     res.status(error.status).send({
