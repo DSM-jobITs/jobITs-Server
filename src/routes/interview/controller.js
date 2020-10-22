@@ -10,6 +10,9 @@ const getInterviewList = async (req, res) => {
       throw badRequest;
     }
     const page = parseInt(req.query.page);
+    if (isNaN(page)) {
+      throw badRequest;
+    }
     // field 값이 없다면 모든 field를 가져올 수 있게 하기 위해 false를 대입
     // mysql의 모든 문자열은 boolean으로 바꾸면 false이다.
     const field = req.query.field ? req.query.field : false;
