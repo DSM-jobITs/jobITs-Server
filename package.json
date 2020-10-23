@@ -3,20 +3,21 @@
   "version": "1.0.0",
   "description": "Mimanjob Project's Server Repository",
   "main": "app.js",
+  "dependencies": {},
+  "devDependencies": {
+    "mocha": "^8.2.0"
+  },
   "scripts": {
-    "test": "mocha src/tests",
-    "start": "node src/app"
+    "test": "mocha"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/DSM-jobITs/jobITs-Server.git"
   },
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/DSM-jobITs/jobITs-Server/issues"
   },
-  "homepage": "https://github.com/DSM-jobITs/jobITs-Server#readme",
-  "dependencies": {},
-  "devDependencies": {}
+  "homepage": "https://github.com/DSM-jobITs/jobITs-Server#readme"
 }
