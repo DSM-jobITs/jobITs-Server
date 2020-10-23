@@ -1,6 +1,7 @@
 const express = require('express');
 const formidableMiddleware = require('express-formidable');
 const { connectDatabase } = require('./models/connection');
+const cors = require('cors');
 
 const app = express();
 const { SERVER_PORT } = require('./config');
