@@ -4,9 +4,9 @@ class employmentService {
   constructor(employmentModel) {
     this.employmentModel = employmentModel;
   }
-  
-  async getEmploymentList(page,maxLimit) {
 
+  async getEmploymentList(page,maxLimit) {
+    console.log('getelmploymentlist in');
     if (typeof page !== 'number' || page < 1) {
       throw error.badRequest;
     }

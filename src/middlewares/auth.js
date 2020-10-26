@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-
+const { JWT_SECRET } = require('../config');
 const error = require('../errors');
 
 const authVerify = async (req,res,next) => {
@@ -9,9 +9,10 @@ const authVerify = async (req,res,next) => {
     if(!bearerHeader) { throw error.badRequest; }// 토큰 없음
     const bearer = bearerHeader.split(" ");
     const token = bearer[1];
-    await jwt.verify(token,req.app.get('jwt-secret'),(err,decoded) => {
+    await jwt.verify(token,JWT_SECRET,(err,decoded) => {
       if(err) throw error.forbidden;
       req.decoded = decoded;
+      console.log('good authVerify');
       next();
     })
   } catch(err) {

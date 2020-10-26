@@ -4,6 +4,7 @@ const logins = new Login(Users);
 
 
 const login = async (req,res,next) => {
+  console.log('login in');
   const { id, password } = req.body;
   try {
     const existing_pwd = await logins.isMember(id);         //기존 비밀번호 가져오기

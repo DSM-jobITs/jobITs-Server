@@ -24,7 +24,7 @@ Employment.init({
   }
 }, {
   sequelize,
-  tableName: 'employment'
+  tableName: 'employments'
 });
 
 module.exports = Employment;
