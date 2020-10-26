@@ -1,4 +1,4 @@
-const Interviews = require('../../models/interviews');
+const { Interviews } = require('../../models');
 const Interview = require('../../services/interview');
 const interview = new Interview(Interviews);
 
