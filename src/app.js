@@ -1,22 +1,24 @@
 const express = require('express');
-const { connectDatabase } = require('./models/connection');
-const cors = require('cors');
+const logger = require('morgan');
+const { sequelize } = require('./models');
 const app = express();
-const { SERVER_PORT } = require('./config');
-const interviewRouter = require('./routes/interviewRouter');
+const port = process.env.PORT;
+const cors = require('cors');
+require('dotenv').config();
 
-connectDatabase();
-
-app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.use(logger('dev'));
+app.use(cors());
 
-app.use('/interview', interviewRouter);
+app.set('jwt-secret',process.env.JWT_SECRET);
+app.set('refresh-secret',process.env.REFRESH_SECRET);
+app.set('crypto-secret',process.env.CRYPTO_SECRET);
 
-app.listen(SERVER_PORT, () => {
-  console.log(`Server is starting at ${SERVER_PORT} port.`);
+sequelize.sync();
+
+app.use('/', require('./routes'));
+
+app.listen(port, () => {//3000
+  console.log("Server is starting at 3000 port.");
 });
-
-//test commit - 1014/dupang
-// test commi - origin/test1014
-
