@@ -1,14 +1,27 @@
-const Sequelize = require('sequelize');
-const env = process.env.NODE_ENV || 'development';
-const config = require(__dirname + '/../config/config.json')[env];
-const db = {};
+const Interviews = require('./interviews');
+const { Notices } = require('./notice');
+const FileMappings = require('./fileMappings');
+const Users = require('./users'); //여기부터 dupang이 씀
+const Employment = require('./employment');
 
-const sequelize = new Sequelize(config.database, config.username, config.password, config);
+Notices.hasMany(FileMappings, {
+  foreignKey: 'noticeId',
+  sourceKey: 'id',
+  onUpdate: 'CASCADE',
+  onDelete: 'CASCADE'
+});
 
-db.sequelize = sequelize;
-db.Sequelize = Sequelize;
+FileMappings.belongsTo(Notices, {
+  foreignKey: 'noticeId',
+  targetKey: 'id',
+  onUpdate: 'CASCADE',
+  onDelete: 'CASCADE'
+});
 
-db.Users = require('./users')(sequelize,Sequelize);
-db.Employment = require('./employment')(sequelize, Sequelize);
-
-module.exports = db;
+module.exports = {
+  Interviews,
+  Notices,
+  FileMappings,
+  Users,
+  Employment
+};

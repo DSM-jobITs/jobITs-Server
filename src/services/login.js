@@ -1,6 +1,8 @@
 const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
 const error = require('../errors');
+const { JWT_SECRET, CRYPTO_SECRET } = require('../config');
+
 
 class loginService {
   constructor(usersModel) {
@@ -18,11 +20,11 @@ class loginService {
     }
     return user.password;
   }
-  async doesItMatch(received_pwd,existing_pwd,cryptoSecret) {
+  async doesItMatch(received_pwd,existing_pwd) {
     if(typeof received_pwd !== 'string' || received_pwd === '') {
       throw error.badRequest;
     }
-    const decode = crypto.createDecipher('aes-256-cbc',cryptoSecret);
+    const decode = crypto.createDecipher('aes-256-cbc',CRYPTO_SECRET);
     let decodeResult = decode.update(existing_pwd,'base64','utf8')
                        + decode.final('utf8');// 요청받은 비번 해독
     if(decodeResult === received_pwd) {
@@ -31,12 +33,12 @@ class loginService {
       throw error.unauthorized; // 비밀번호 맞지 않음.
     }
   }
-  async tokenIssue(id,jwtSecret) {
+  async tokenIssue(id) {
 
     try {
       const accessToken = await jwt.sign({  //accessToken 발급
         id
-      }, jwtSecret, {
+      }, JWT_SECRET, {
         expiresIn: '15m'
       });
       return accessToken;
@@ -46,11 +48,11 @@ class loginService {
       });
     }
   }
-  async createPassword(id,newPassword,cryptoSecret) {
+  async createPassword(id,newPassword) {
     if(typeof newPassword !== 'string' || newPassword === '') {
       throw error.badRequest;
     }
-    const cipher = crypto.createCipher('aes-256-cbc', cryptoSecret);
+    const cipher = crypto.createCipher('aes-256-cbc', CRYPTO_SECRET);
     let password = cipher.update(newPassword, 'utf8', 'base64') //새로운 비번 암호화
                  + cipher.final('base64');
     await this.usersModel.update({
