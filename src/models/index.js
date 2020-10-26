@@ -1,3 +1,4 @@
+const Interviews = require('./interviews');
 const { Notices } = require('./notice');
 const FileMappings = require('./fileMappings');
 
@@ -16,6 +17,7 @@ FileMappings.belongsTo(Notices, {
 });
 
 module.exports = {
+  Interviews,
   Notices,
   FileMappings
 };
