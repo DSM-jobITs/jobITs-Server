@@ -3,50 +3,29 @@
   "version": "1.0.0",
   "description": "",
   "main": "app.js",
-<<<<<<< HEAD
-  "directories": {
-    "test": "tests"
-=======
+  "scripts": {
+    "test": "mocha",
+    "start": "node src/app"
+  },
+  "author": "",
+  "license": "ISC",
   "dependencies": {
     "aws-sdk": "^2.777.0",
     "cors": "^2.8.5",
     "date-utils": "^1.2.21",
+    "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "express-formidable": "^1.2.0",
-    "mysql2": "^2.2.5",
-    "sequelize": "^6.3.5",
-    "uuid4": "^2.0.2"
-  },
-  "devDependencies": {
-    "dotenv": "^8.2.0",
-    "mocha": "^8.2.0"
-  },
-  "scripts": {
-    "test": "mocha",
-    "start": "node src/app"
->>>>>>> realOrigin/master
-  },
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "",
-<<<<<<< HEAD
-  "license": "ISC",
-  "dependencies": {
-    "cors": "^2.8.5",
-    "dotenv": "^8.2.0",
-    "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
+    "mocha": "^8.2.0",
     "morgan": "^1.10.0",
     "mysql2": "^2.2.5",
     "redis": "^3.0.2",
-    "sequelize": "^6.3.5"
-  }
-=======
-  "license": "MIT",
+    "sequelize": "^6.3.5",
+    "uuid4": "^2.0.2"
+  },
   "bugs": {
     "url": "https://github.com/DSM-jobITs/jobITs-Server/issues"
   },
   "homepage": "https://github.com/DSM-jobITs/jobITs-Server#readme"
->>>>>>> realOrigin/master
 }

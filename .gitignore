@@ -3,3 +3,4 @@ go.bat
 node_modules
 .env
 src/config/awsconfig.json
+package-lock.json
