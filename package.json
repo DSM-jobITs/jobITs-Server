@@ -1,32 +1,29 @@
 {
-  "name": "jobits-server",
+  "name": "src",
   "version": "1.0.0",
-  "description": "Mimanjob Project's Server Repository",
+  "description": "",
   "main": "app.js",
-  "dependencies": {
-    "aws-sdk": "^2.777.0",
-    "cors": "^2.8.5",
-    "date-utils": "^1.2.21",
-    "express": "^4.17.1",
-    "express-formidable": "^1.2.0",
-    "mysql2": "^2.2.5",
-    "sequelize": "^6.3.5",
-    "uuid4": "^2.0.2"
-  },
-  "devDependencies": {
-    "dotenv": "^8.2.0",
-    "mocha": "^8.2.0"
-  },
   "scripts": {
     "test": "mocha",
     "start": "node src/app"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/DSM-jobITs/jobITs-Server.git"
-  },
   "author": "",
-  "license": "MIT",
+  "license": "ISC",
+  "dependencies": {
+    "aws-sdk": "^2.777.0",
+    "cors": "^2.8.5",
+    "date-utils": "^1.2.21",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "formidable": "^1.2.2",
+    "jsonwebtoken": "^8.5.1",
+    "mocha": "^8.2.0",
+    "morgan": "^1.10.0",
+    "mysql2": "^2.2.5",
+    "redis": "^3.0.2",
+    "sequelize": "^6.3.5",
+    "uuid4": "^2.0.2"
+  },
   "bugs": {
     "url": "https://github.com/DSM-jobITs/jobITs-Server/issues"
   },

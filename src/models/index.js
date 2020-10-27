@@ -1,6 +1,8 @@
 const Interviews = require('./interviews');
 const { Notices } = require('./notice');
 const FileMappings = require('./fileMappings');
+const Users = require('./users'); //여기부터 dupang이 씀
+const Employment = require('./employment');
 
 Notices.hasMany(FileMappings, {
   foreignKey: 'noticeId',
@@ -19,5 +21,7 @@ FileMappings.belongsTo(Notices, {
 module.exports = {
   Interviews,
   Notices,
-  FileMappings
+  FileMappings,
+  Users,
+  Employment
 };

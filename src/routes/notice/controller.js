@@ -2,6 +2,7 @@ const { Notices, FileMappings } = require('../../models');
 const NoticeService = require('../../services/notice');
 const noticeService = new NoticeService(Notices, FileMappings);
 
+const formidable = require('formidable');
 const { badRequest } = require('../../errors');
 
 const getNoticeList = async (req, res) => {
@@ -11,7 +12,7 @@ const getNoticeList = async (req, res) => {
       throw badRequest;
     }
     const maxShow = 6;  // 한 페이지에 보이는 게시물 수 고정
-    
+
     const lists = await noticeService.getNotices(page, maxShow);
     res.send({
       lists: lists
@@ -40,52 +41,57 @@ const getNotice = async (req, res) => {
 };
 
 const registerNotice = async (req, res) => {
-  try {
-    if (!Object.keys(req.fields).length) {
-      throw badRequest;
-    }
-    const { title, content } = req.fields;
-    
-    if (req.fields.fixed !== 'false' && req.fields.fixed !== 'true') {
-      throw badRequest;
-    }
-    const fixed = (req.fields.fixed !== 'false');
+  const form = formidable({ multiplies: true });
+  form.parse(req, async (err, fields, files) => {
+    try {
+        if (!Object.keys(fields).length) {
+        throw badRequest;
+      }
+      const { title, content } = fields;
+      if (fields.fixed !== 'false' && fields.fixed !== 'true') {
+        throw badRequest;
+      }
+      const fixed = (fields.fixed !== 'false');
 
-    const noticeId = await noticeService.createNotice(title, content, fixed);
-    await noticeService.uploadFiles(noticeId, req.files.files);
+      const noticeId = await noticeService.createNotice(title, content, fixed);
+      await noticeService.uploadFiles(noticeId, files.files);
 
-    res.status(201).send({
-      id: noticeId
-    });
-  } catch (error) {
-    res.status(error.status).send({
-      message: error.message
-    });
-  }
+      res.status(201).send({
+        id: noticeId
+      });
+    } catch (error) {
+      res.status(error.status).send({
+        message: error.message
+      });
+    }
+  });
 };
 
 const updateNotice = async (req, res) => {
-  try {
-    const id = parseInt(req.params.id);
-    if (isNaN(id)) {
-      throw badRequest;
-    }
-    if (!Object.keys(req.fields).length) {
-      throw badRequest;
-    }
-    if (req.fields.fixed !== 'false' && req.fields.fixed !== 'true') {
-      throw badRequest;
-    }
-    const { title, content } = req.fields;
-    const fixed = (req.fields.fixed !== 'false');
+  const form = formidable({ multiplies: true });
+  form.parse(req, async (err, fields, files) => {
+    try {
+      const id = parseInt(req.params.id);
+      if (isNaN(id)) {
+        throw badRequest;
+      }
+      if (!Object.keys(fields).length) {
+        throw badRequest;
+      }
+      if (fields.fixed !== 'false' && fields.fixed !== 'true') {
+        throw badRequest;
+      }
+      const { title, content } = fields;
+      const fixed = (fields.fixed !== 'false');
 
-    await noticeService.updateNotice(id, title, content, fixed, req.files.files);
-    res.send();
-  } catch (error) {
-    res.status(error.status).send({
-      message: error.message
-    });
-  }
+      await noticeService.updateNotice(id, title, content, fixed, files.files);
+      res.send();
+    } catch (error) {
+      res.status(error.status).send({
+        message: error.message
+      });
+    }
+  });
 };
 
 const removeNotice = async (req, res) => {

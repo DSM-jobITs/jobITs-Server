@@ -18,9 +18,9 @@ const getInterviewList = async (req, res) => {
     const field = req.query.field ? req.query.field : false;
     const keyword = req.query.keyword ? req.query.keyword : '';
     const maxShow = 6;
-    
+
     const results = await interview.getInterviewQuestions(page, field, keyword, maxShow);
-    
+
     res.send({
       lists: results,
       field: field ? field : undefined
@@ -38,7 +38,7 @@ const registerInterview = async (req, res) => {
       throw badRequest;
     }
     const { contents, field } = req.body;
-    
+
     await interview.registerInterviewQuestions(contents, field);
     res.status(201).send();
   } catch (error) {
@@ -55,7 +55,7 @@ const updateInterview = async (req, res) => {
     }
     const { content, field } = req.body;
     const id = parseInt(req.params.id);
-    
+
     await interview.modifyInterviewQuestion(id, content, field);
     res.send();
   } catch (error) {
