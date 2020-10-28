@@ -1,7 +1,7 @@
 const FileService = require('./file');
 const { badRequest, notFound } = require('../errors');
 const { BUCKET_URL } = require('../config');
-const { MAX_TITLE_LEN, MAX_CONTENT_LEN } = require('../models/notice');
+const { MAX_TITLE_LEN, MAX_CONTENT_LEN } = require('../models/notices');
 const isStored = require('../utils/isStored');
 require('date-utils');
 
