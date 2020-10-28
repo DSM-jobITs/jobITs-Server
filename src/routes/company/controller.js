@@ -1,6 +1,6 @@
 const { Companys } = require('../../models');
 const CompanyService = require('../../services/company');
-const companyService = new CompanyService;
+const companyService = new CompanyService(Companys);
 
 const { badRequest } = require('../../errors');
 
