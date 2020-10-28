@@ -28,7 +28,10 @@ class EmployeRecordService {
 
     const employePeopleList = await this.employeRecordModel.findAll({
       attributes: ['year', 'num_of_employed'],
-      where: { company_id: companyId }
+      where: { company_id: companyId },
+      order: [
+        ['year', 'DESC']
+      ]
     });
 
     if (!employePeopleList) {
