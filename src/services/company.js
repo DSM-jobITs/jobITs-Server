@@ -1,6 +1,8 @@
 const { badRequest, notFound } = require('../errors');
 const { BUCKET_URL } = require('../config');
+const { EmployeRecord } = require('../models');
 const EmployeRecordService = require('./employeRecord');
+const employeRecordService = new EmployeRecordService(EmployeRecord);
 
 class CompanyService {
   constructor(companyModel) {
@@ -22,9 +24,9 @@ class CompanyService {
     }
     company.dataValues.logo = BUCKET_URL + company.dataValues.logo;
     company.dataValues.totalEmployed =
-      await EmployeRecordService.getTotalEmployed(companyId);
+      await employeRecordService.getTotalEmployed(companyId);
     company.dataValues.employedPeople = 
-      await EmployeRecordService.getEmployePeopleList(companyId);
+      await employeRecordService.getEmployePeopleList(companyId);
     
     return company;
   }
