@@ -28,3 +28,5 @@ class CompanyService {
     return company;
   }
 }
+
+module.exports = CompanyService;
