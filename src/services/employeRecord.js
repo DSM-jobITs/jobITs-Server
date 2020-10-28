@@ -1,4 +1,4 @@
-const { badRequest, notFound } = require("../errors");
+const { badRequest, notFound } = require('../errors');
 
 class EmployeRecordService {
   constructor(employeRecordModel) {
