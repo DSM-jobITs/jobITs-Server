@@ -21,13 +21,13 @@ class EmployeRecordService {
     return totalEmployed;
   }
 
-  async getEmployePeopleList(companyId) {
+  async getEmployedPeopleList(companyId) {
     if (typeof companyId !== 'number' || companyId < 1) {
       throw badRequest;
     }
 
     const employePeopleList = await this.employeRecordModel.findAll({
-      attributes: ['year', 'num_of_employed'],
+      attributes: ['year', ['num_of_employed', 'numOfEmployed']],
       where: { company_id: companyId },
       order: [
         ['year', 'DESC']
