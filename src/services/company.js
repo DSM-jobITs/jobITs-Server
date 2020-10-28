@@ -1,4 +1,5 @@
 const { badRequest, notFound } = require('../errors');
+const { BUCKET_URL } = require('../config');
 const EmployeRecordService = require('./employeRecord');
 
 class CompanyService {
@@ -19,7 +20,7 @@ class CompanyService {
     if (!company) {
       throw notFound;
     }
-
+    company.dataValues.logo = BUCKET_URL + company.dataValues.logo;
     company.dataValues.totalEmployed =
       await EmployeRecordService.getTotalEmployed(companyId);
     company.dataValues.employedPeople = 
