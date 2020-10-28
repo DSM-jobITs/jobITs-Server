@@ -14,7 +14,6 @@ const getCompany = async (req, res) => {
     const result = await companyService.getCompany(companyId);
     res.send(result);
   } catch (error) {
-    console.error(error);
     res.status(error.status).send({
       message: error.message
     });
