@@ -74,17 +74,6 @@ class FileService {
     }
   }
 
-  async updateFileMap(fileMapId, noticeId) {
-    if (typeof fileMapId !== 'number' || fileMapId < 1) {
-      throw badRequest;
-    }
-    if (typeof noticeId !== 'number' || noticeId < 1) {
-      throw badRequest;
-    }
-
-    
-  }
-
   async deleteFileMap(noticeId) {
     await this.fileMappingModel.destroy({
       where: { noticeId: noticeId }
