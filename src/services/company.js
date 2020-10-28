@@ -26,7 +26,7 @@ class CompanyService {
     company.dataValues.totalEmployed =
       await employeRecordService.getTotalEmployed(companyId);
     company.dataValues.employedPeople = 
-      await employeRecordService.getEmployePeopleList(companyId);
+      await employeRecordService.getEmployedPeopleList(companyId);
     
     return company;
   }
