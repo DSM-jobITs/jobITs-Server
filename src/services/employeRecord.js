@@ -11,7 +11,7 @@ class EmployeRecordService {
       throw badRequest;
     }
 
-    const totalEmployed = await this.employeRecordModel.count({
+    const totalEmployed = await this.employeRecordModel.sum('num_of_employed', {
       where: { company_id: companyId }
     });
     if (!totalEmployed) {
