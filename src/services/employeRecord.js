@@ -5,7 +5,18 @@ class EmployeRecordService {
     this.employeRecordModel = employeRecordModel;
   }
 
-
+  async getNumOfEmployed(companyId) {
+    if (typeof companyId !== 'number' || companyId < 1) {
+      throw badRequest;
+    }
+    const result = await this.employeRecordModel.findOne({
+      where: {company_Id: companyId }
+    });
+    if(!result) {
+      throw notFound;
+    }
+    return result.dataValues.num_of_employed;
+  }
   async getTotalEmployed(companyId) {
     if (typeof companyId !== 'number' || companyId < 1) {
       throw badRequest;
