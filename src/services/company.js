@@ -22,12 +22,13 @@ class CompanyService {
       offset: MAX_LIMIT*(companyPage-1),
       limit: MAX_LIMIT,
     });//DB쪽 다시 손보기
-    if(0 == company.length) {
+    if(0 == company.length) { //빈배열 처리
       throw notFound;
     }
-    //const numOfEmployed = employeRecordService.getNumOfEmployed(company.dataValues.id);
-    //기업 로고 aws 처리하기
-    //company.numOfEmployed = numOfEmployed;// 한 번 더 확인하기
+    for i in company {  //이미지 URL 추가
+      i.dataValues.logo = BUCKET_URL + i.dataValues.logo;
+    }
+
     return company;
   }
   async getCompany(companyId) {
