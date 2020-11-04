@@ -4,6 +4,23 @@ const companyService = new CompanyService(Companys);
 
 const { badRequest } = require('../../errors');
 
+const getCompanyList = async (req,res) => {
+  try {
+    const companyPage = parseInt(req.query.page);
+    if(isNaN(companyPage)) {
+      throw badRequest;
+    }
+    const lists = await companyService.getCompanyList(companyPage);
+    res.status(200).send({
+      lists:lists
+    });
+  } catch(err) {
+    res.status(err.status).send({
+      message: err.message
+    })
+  }
+}
+
 const getCompany = async (req, res) => {
   try {
     const companyId = parseInt(req.params.id);
@@ -21,5 +38,6 @@ const getCompany = async (req, res) => {
 };
 
 module.exports = {
+  getCompanyList,
   getCompany
 };

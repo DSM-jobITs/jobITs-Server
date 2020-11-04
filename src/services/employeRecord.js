@@ -5,7 +5,6 @@ class EmployeRecordService {
     this.employeRecordModel = employeRecordModel;
   }
 
-
   async getTotalEmployed(companyId) {
     if (typeof companyId !== 'number' || companyId < 1) {
       throw badRequest;
