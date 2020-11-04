@@ -1,4 +1,4 @@
-config/config.json
+src/config/config.json
 go.bat
 node_modules
 .env

@@ -11,16 +11,23 @@ class CompanyService {
   }
   async getCompanyList(companyPage) {
     const company = await this.companyModel.findAll({
+      include:  [
+        {
+          model: EmployeRecord,
+          attributes: ['num_of_employed']
+        }
+      ],
       attributes: ['id','name','introduction','logo'],
-      order: [['name'],['asc']],
+      order: [['name','desc']],
       offset: MAX_LIMIT*(companyPage-1),
       limit: MAX_LIMIT,
-    });
-    if(!company) {
+    });//DB쪽 다시 손보기
+    if(0 == company.length) {
       throw notFound;
     }
-    const numOfEmployed = employeRecordService.getNumOfEmployed(company.dataValues.id);
-    company.numOfEmployed = numOfEmployed;// 한 번 더 확인하기
+    //const numOfEmployed = employeRecordService.getNumOfEmployed(company.dataValues.id);
+    //기업 로고 aws 처리하기
+    //company.numOfEmployed = numOfEmployed;// 한 번 더 확인하기
     return company;
   }
   async getCompany(companyId) {

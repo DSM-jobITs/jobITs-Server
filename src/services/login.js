@@ -3,7 +3,6 @@ const crypto = require('crypto');
 const error = require('../errors');
 const { JWT_SECRET, CRYPTO_SECRET } = require('../config');
 
-
 class loginService {
   constructor(usersModel) {
     this.usersModel = usersModel;
