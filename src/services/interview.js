@@ -20,7 +20,12 @@ class InterviewService {
     if (typeof maxShow !== 'number' || maxShow < 1) {
       throw badRequest;
     }
-    
+
+    if (field !== false) {
+      field = replace(/[\'|\"]/gi, '');
+    }
+    keyword = replace(/[\'|\"]/gi, '');
+
     const results = await this.interviewModel.findAll({
       attributes: ['id', 'content', 'createdAt'],
       where: {
