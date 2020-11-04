@@ -24,8 +24,7 @@ class InterviewService {
     if (field !== false) {
       field = replace(/[\'|\"]/gi, '');
     }
-    keyword = replace(/[\'|\"]/gi, '');
-
+    
     const results = await this.interviewModel.findAll({
       attributes: ['id', 'content', 'createdAt'],
       where: {
@@ -59,6 +58,7 @@ class InterviewService {
     if (typeof field !== 'string') {
       throw badRequest;
     }
+    field = field.replace(/[\'|\"]/gi, '');
     
     for (let content of contents) {
       if (typeof content !== 'string' || !content ||content.length > MAX_CONTENT_LEN) {
