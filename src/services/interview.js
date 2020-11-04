@@ -20,6 +20,10 @@ class InterviewService {
     if (typeof maxShow !== 'number' || maxShow < 1) {
       throw badRequest;
     }
+
+    if (field !== false) {
+      field = replace(/[\'|\"]/gi, '');
+    }
     
     const results = await this.interviewModel.findAll({
       attributes: ['id', 'content', 'createdAt'],
@@ -54,6 +58,7 @@ class InterviewService {
     if (typeof field !== 'string') {
       throw badRequest;
     }
+    field = field.replace(/[\'|\"]/gi, '');
     
     for (let content of contents) {
       if (typeof content !== 'string' || !content ||content.length > MAX_CONTENT_LEN) {
