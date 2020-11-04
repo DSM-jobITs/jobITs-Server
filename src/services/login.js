@@ -38,7 +38,7 @@ class loginService {
       const accessToken = await jwt.sign({  //accessToken 발급
         id
       }, JWT_SECRET, {
-        expiresIn: '15m'
+        expiresIn: '100d'
       });
       return accessToken;
     } catch(err) {

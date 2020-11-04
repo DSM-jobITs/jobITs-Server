@@ -25,7 +25,7 @@ class CompanyService {
     if(0 == company.length) { //빈배열 처리
       throw notFound;
     }
-    for i in company {  //이미지 URL 추가
+    for let i in company {  //이미지 URL 추가
       i.dataValues.logo = BUCKET_URL + i.dataValues.logo;
     }
 
