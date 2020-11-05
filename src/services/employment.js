@@ -5,20 +5,11 @@ class employmentService {
     this.employmentModel = employmentModel;
   }
 
-  async getEmploymentList(page,maxLimit) {
+  async getEmploymentList() {
     console.log('getelmploymentlist in');
-    if (typeof page !== 'number' || page < 1) {
-      throw error.badRequest;
-    }
-    if (typeof maxLimit !== 'number' || maxLimit < 1) {// maxLimit 검증을 해야하는가?
-      throw error.badRequest;
-    }
-
     const list = await this.employmentModel.findAll({
       attributes: ['id','question','answer'],
-      order: [['createdAt','asc']],
-      limit: maxLimit,
-      offset: (page-1)*maxLimit,
+      order: [['createdAt','desc']]
     });
 
     if(!list.length) {
