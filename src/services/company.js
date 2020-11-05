@@ -11,12 +11,6 @@ class CompanyService {
   }
   async getCompanyList(companyPage) {
     const company = await this.companyModel.findAll({
-      include:  [
-        {
-          model: EmployeRecord,
-          attributes: ['num_of_employed']
-        }
-      ],
       attributes: ['id','name','introduction','logo'],
       order: [['name','ASC']],
       offset: MAX_LIMIT*(companyPage-1),
@@ -25,9 +19,10 @@ class CompanyService {
     if(0 == company.length) { //빈배열 처리
       throw notFound;
     }
-    
     for (let i of company) {  //이미지 URL 추가
       i.dataValues.logo = BUCKET_URL + i.dataValues.logo;
+      i.dataValues.totalEmployed =
+          await employeRecordService.getTotalEmployed(i.id);
     }
 
     return company;
