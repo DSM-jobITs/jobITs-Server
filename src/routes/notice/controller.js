@@ -42,9 +42,10 @@ const getNotice = async (req, res) => {
 
 const registerNotice = async (req, res) => {
   const form = formidable({ multiplies: true });
-  form.parse(req, async (err, fields, files) => {
-    try {
-        if (!Object.keys(fields).length) {
+  let noticeId = null;
+  try {
+    form.parse(req, async (err, fields, files) => {
+      if (!Object.keys(fields).length) {
         throw badRequest;
       }
       const { title, content } = fields;
@@ -53,18 +54,17 @@ const registerNotice = async (req, res) => {
       }
       const fixed = (fields.fixed !== 'false');
 
-      const noticeId = await noticeService.createNotice(title, content, fixed);
+      noticeId = await noticeService.createNotice(title, content, fixed);
       await noticeService.uploadFiles(noticeId, files.files);
-
-      res.status(201).send({
-        id: noticeId
-      });
-    } catch (error) {
-      res.status(error.status).send({
-        message: error.message
-      });
-    }
-  });
+    });
+    res.status(201).send({
+      id: noticeId
+    });
+  } catch (error) {
+    res.status(error.status).send({
+      message: error.message
+    });
+  }
 };
 
 const updateNotice = async (req, res) => {
