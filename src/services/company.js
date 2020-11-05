@@ -18,7 +18,7 @@ class CompanyService {
         }
       ],
       attributes: ['id','name','introduction','logo'],
-      order: [['name','desc']],
+      order: [['name','ASC']],
       offset: MAX_LIMIT*(companyPage-1),
       limit: MAX_LIMIT,
     });//DB쪽 다시 손보기
