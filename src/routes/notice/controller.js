@@ -41,8 +41,9 @@ const getNotice = async (req, res) => {
 };
 
 const registerNotice = async (req, res) => {
-  const form = formidable({ multiplies: true });
-  let noticeId = null;
+  const form = new formidable.IncomingForm();
+  form.encoding = 'utf-8';
+  form.multiples = true;
   try {
     form.parse(req, async (err, fields, files) => {
       if (!Object.keys(fields).length) {
@@ -54,11 +55,12 @@ const registerNotice = async (req, res) => {
       }
       const fixed = (fields.fixed !== 'false');
 
-      noticeId = await noticeService.createNotice(title, content, fixed);
+      const noticeId = await noticeService.createNotice(title, content, fixed);
       await noticeService.uploadFiles(noticeId, files.files);
-    });
-    res.status(201).send({
-      id: noticeId
+      
+      res.status(201).send({
+        id: noticeId
+      });
     });
   } catch (error) {
     res.status(error.status).send({
@@ -68,7 +70,9 @@ const registerNotice = async (req, res) => {
 };
 
 const updateNotice = async (req, res) => {
-  const form = formidable({ multiplies: true });
+  const form = new formidable.IncomingForm();
+  form.encoding = 'utf-8';
+  form.multiples = true;
   form.parse(req, async (err, fields, files) => {
     try {
       const id = parseInt(req.params.id);
