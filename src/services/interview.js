@@ -47,24 +47,18 @@ class InterviewService {
     return results;
   }
 
-  async registerInterviewQuestions(contents, field) {
-    if (!Array.isArray(contents) || !contents.length) {
+  async registerInterviewQuestions(content, field) {
+    if (typeof content !== 'string' || content.length > MAX_CONTENT_LEN) {
       throw badRequest;
     }
     if (typeof field !== 'string') {
       throw badRequest;
     }
-    
-    for (let content of contents) {
-      if (typeof content !== 'string' || !content ||content.length > MAX_CONTENT_LEN) {
-        throw badRequest;
-      }
 
-      await this.interviewModel.create({
-        content: content,
-        field: field
-      });
-    }
+    await this.interviewModel.create({
+      content: content,
+      field: field
+    });
   }
 
   async isStored(id) {
