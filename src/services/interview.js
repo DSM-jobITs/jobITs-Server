@@ -48,7 +48,7 @@ class InterviewService {
   }
 
   async registerInterviewQuestions(content, field) {
-    if (typeof content !== 'string' || content.length > MAX_CONTENT_LEN) {
+    if (typeof content !== 'string' || !content || content.length > MAX_CONTENT_LEN) {
       throw badRequest;
     }
     if (typeof field !== 'string') {
