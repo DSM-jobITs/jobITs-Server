@@ -1,4 +1,4 @@
-isWhiteSpace = function (string) {
+function isWhiteSpace(string) {
   const isWhiteSpace = /^\s*$/;
   return isWhiteSpace.test(string);
 };
