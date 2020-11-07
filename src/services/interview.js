@@ -1,4 +1,5 @@
 const { badRequest, notFound } = require('../errors');
+const isWhiteSpace = require('../utils/isWhiteSpace');
 const { Op } = require('sequelize');
 const MAX_CONTENT_LEN = 150;
 
@@ -11,10 +12,13 @@ class InterviewService {
     if (typeof page !== 'number' || page < 1) {
       throw badRequest;
     }
-    if (typeof field !== 'string' && field !== false) {
+    if ((typeof field !== 'string' || !field) && field !== false) {
       throw badRequest;
     }
-    if (typeof keyword !== 'string') {
+    if (typeof field === 'string' && isWhiteSpace(field)) {
+      throw badRequest;
+    }
+    if (typeof keyword !== 'string' || !keyword || isWhiteSpace(keyword)) {
       throw badRequest;
     }
     if (typeof maxShow !== 'number' || maxShow < 1) {
@@ -48,10 +52,10 @@ class InterviewService {
   }
 
   async registerInterviewQuestions(content, field) {
-    if (typeof content !== 'string' || !content || content.length > MAX_CONTENT_LEN) {
+    if (typeof content !== 'string' || !content || isWhiteSpace(content) ||content.length > MAX_CONTENT_LEN) {
       throw badRequest;
     }
-    if (typeof field !== 'string') {
+    if (typeof field !== 'string' || !field || isWhiteSpace(field)) {
       throw badRequest;
     }
 
@@ -72,10 +76,10 @@ class InterviewService {
     if (typeof id !== 'number' || id < 1) {
       throw badRequest;
     }
-    if (typeof content !== 'string' || !content || content.length > MAX_CONTENT_LEN) {
+    if (typeof content !== 'string' || !content || isWhiteSpace(content) || content.length > MAX_CONTENT_LEN) {
       throw badRequest;
     }
-    if (typeof field !== 'string' || !field) {
+    if (typeof field !== 'string' || !field || isWhiteSpace(content)) {
       throw badRequest;
     }
 
@@ -109,6 +113,10 @@ class InterviewService {
     if (typeof field !== 'string' && field !== false) {
       throw badRequest;
     }
+    if (typeof field == 'string' && isWhiteSpace(field)) {
+      throw badRequest;
+    }
+    
     return await this.interviewModel.count({
       where: { field }
     });
