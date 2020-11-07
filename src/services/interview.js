@@ -18,7 +18,7 @@ class InterviewService {
     if (typeof field === 'string' && isWhiteSpace(field)) {
       throw badRequest;
     }
-    if (typeof keyword !== 'string' || !keyword || isWhiteSpace(keyword)) {
+    if (typeof keyword !== 'string') {
       throw badRequest;
     }
     if (typeof maxShow !== 'number' || maxShow < 1) {
