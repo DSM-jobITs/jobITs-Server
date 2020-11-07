@@ -19,7 +19,7 @@ const getInterviewList = async (req, res) => {
     if (req.query.field === '\'\'' || !req.query.field) {
       field = false;
     } else {
-      field = req.queyr.field;
+      field = req.query.field;
     }
     const keyword = req.query.keyword ? req.query.keyword : '';
     const maxShow = 6;
@@ -33,9 +33,10 @@ const getInterviewList = async (req, res) => {
       numOfQuestions
     });
   } catch (error) {
-    res.status(error.status).send({
-      message: error.message
-    });
+    // res.status(error.status).send({
+    //   message: error.message
+    // });
+    console.error(error);
   }
 };
 
