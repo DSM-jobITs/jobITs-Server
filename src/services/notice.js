@@ -3,6 +3,7 @@ const { badRequest, notFound } = require('../errors');
 const { BUCKET_URL } = require('../config');
 const { MAX_TITLE_LEN, MAX_CONTENT_LEN } = require('../models/notices');
 const isStored = require('../utils/isStored');
+const isWhiteSpace = require('../utils/isWhiteSpace');
 require('date-utils');
 
 class NoticeService extends FileService {
@@ -12,10 +13,10 @@ class NoticeService extends FileService {
   }
 
   async createNotice(title, content, fixed) {
-    if (typeof title !== 'string' || !title || title.length > MAX_TITLE_LEN) {
+    if (typeof title !== 'string' || !title || isWhiteSpace(title) || title.length > MAX_TITLE_LEN) {
       throw badRequest;
     }
-    if (typeof content !== 'string' || !content || content.length > MAX_CONTENT_LEN) {
+    if (typeof content !== 'string' || !content || isWhiteSpace(content) || content.length > MAX_CONTENT_LEN) {
       throw badRequest;
     }
     if (typeof fixed !== 'boolean') {
@@ -32,6 +33,10 @@ class NoticeService extends FileService {
   }
 
   async getOneNotice(id) {
+    if (typeof id !== 'number' || id < 1) {
+      throw badRequest;
+    }
+
     const notice = await this.noticeModel.findOne({
       attributes: ['id', 'title', 'content', 'createdAt'],
       where: { id: id }
@@ -83,10 +88,10 @@ class NoticeService extends FileService {
     if (typeof noticeId !== 'number' || noticeId < 1) {
       throw badRequest;
     }
-    if (typeof title !== 'string' || !title || title.length > MAX_TITLE_LEN) {
+    if (typeof title !== 'string' || !title || isWhiteSpace(title) || title.length > MAX_TITLE_LEN) {
       throw badRequest;
     }
-    if (typeof content !== 'string' || !content || content.length > MAX_CONTENT_LEN) {
+    if (typeof content !== 'string' || !content || isWhiteSpace(content) || content.length > MAX_CONTENT_LEN) {
       throw badRequest;
     }
     if (typeof fixed !== 'boolean') {

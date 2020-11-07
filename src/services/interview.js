@@ -79,7 +79,7 @@ class InterviewService {
     if (typeof content !== 'string' || !content || isWhiteSpace(content) || content.length > MAX_CONTENT_LEN) {
       throw badRequest;
     }
-    if (typeof field !== 'string' || !field || isWhiteSpace(content)) {
+    if (typeof field !== 'string' || !field || isWhiteSpace(field)) {
       throw badRequest;
     }
 
@@ -116,7 +116,7 @@ class InterviewService {
     if (typeof field == 'string' && isWhiteSpace(field)) {
       throw badRequest;
     }
-    
+
     return await this.interviewModel.count({
       where: { field }
     });
