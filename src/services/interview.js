@@ -120,7 +120,7 @@ class InterviewService {
     if (typeof field !== 'string' && field !== false) {
       throw badRequest;
     }
-    await this.interviewModel.count({
+    return await this.interviewModel.count({
       where: { field }
     });
   }
