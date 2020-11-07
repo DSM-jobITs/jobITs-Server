@@ -115,6 +115,15 @@ class InterviewService {
       where: { id: id }
     });
   }
+
+  async getNumOfInterviewQuestions(field) {
+    if (typeof field !== 'string' && field !== false) {
+      throw badRequest;
+    }
+    await this.interviewModel.count({
+      where: { field }
+    });
+  }
 }
 
 module.exports = InterviewService;
