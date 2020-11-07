@@ -22,7 +22,7 @@ class InterviewService {
     }
 
     if (field !== false) {
-      field = replace(/[\'|\"]/gi, '');
+      field = field.replace(/[\'|\"]/gi, '');
     }
     
     const results = await this.interviewModel.findAll({
