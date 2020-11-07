@@ -20,10 +20,12 @@ const getInterviewList = async (req, res) => {
     const maxShow = 6;
 
     const results = await interview.getInterviewQuestions(page, field, keyword, maxShow);
+    const numOfQuestions = await interview.getNumOfInterviewQuestions(field);
 
     res.send({
       lists: results,
-      field: field ? field : undefined
+      field: field ? field : undefined,
+      numOfQuestions
     });
   } catch (error) {
     res.status(error.status).send({
