@@ -33,10 +33,9 @@ const getInterviewList = async (req, res) => {
       numOfQuestions
     });
   } catch (error) {
-    // res.status(error.status).send({
-    //   message: error.message
-    // });
-    console.error(error);
+    res.status(error.status).send({
+      message: error.message
+    });
   }
 };
 
