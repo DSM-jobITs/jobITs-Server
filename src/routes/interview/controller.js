@@ -15,11 +15,9 @@ const getInterviewList = async (req, res) => {
     }
     // field 값이 없다면 모든 field를 가져올 수 있게 하기 위해 false를 대입
     // mysql의 모든 문자열은 boolean으로 바꾸면 false이다.
-    let field = '';
+    let field = req.query.field;
     if (req.query.field === '\'\'' || !req.query.field) {
       field = false;
-    } else {
-      field = req.query.field;
     }
     const keyword = req.query.keyword ? req.query.keyword : '';
     const maxShow = 6;
