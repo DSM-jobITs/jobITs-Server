@@ -1,10 +1,11 @@
 const path = require('path');
+const fs = require('fs');
 const makeUuid = require('../utils/makeUuid');
 const { badRequest } = require('../errors');
 
 const AWS = require('aws-sdk');
 AWS.config.loadFromPath(__dirname + '/../config/awsconfig.json');
-const { BUCKET_NAME, BUCKET_URL } = require('../config');
+const { BUCKET_NAME } = require('../config');
 const s3 = new AWS.S3();
 
 class FileService {
@@ -63,12 +64,17 @@ class FileService {
     for (const file of files) {
       const fileName = file.name;
       const fileUuid = this.makeFileKey(file);
+      const fileStream = fs.createReadStream(file.path);
+      fileStream.on('error', (err) => {
+        err.status = 500;
+        throw err;
+      });
       const params = {
         Bucket: BUCKET_NAME,
         Key: fileUuid,
-        Body: file.path,
+        Body: fileStream,
         ACL: 'public-read'
-      }
+      };
       await s3.upload(params).promise();
       await this.InsertFileName(noticeId, fileName, fileUuid);
     }
