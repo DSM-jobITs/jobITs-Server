@@ -49,7 +49,7 @@ class NoticeService extends FileService {
 
     const files =  await this.getFiles(notice.id);
     for (const file of files) {
-      file.url = BUCKET_URL + file.url;
+      file.dataValues.url = BUCKET_URL + file.dataValues.url;
     }
 
     delete notice.dataValues.id;
