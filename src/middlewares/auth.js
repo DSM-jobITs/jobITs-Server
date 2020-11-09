@@ -15,7 +15,6 @@ const authVerify = async (req,res,next) => {
       if(err) throw error.forbidden;
       req.decoded = decoded;
       await loginService.isMember(decoded.id);
-      console.log('good authVerify');
       next();
     })
   } catch(err) {
@@ -26,15 +25,35 @@ const authVerify = async (req,res,next) => {
 }
 
 const isAdmin = (req,res,next) => {
-  console.log("in is Admin");
   if(req.decoded.id !== 'Admin') {
     res.status(403).json({ message: 'no permission'}); // 메세지 지우기
   }
   else next();
+}
 
+const checkAdmin = async (req,res,next) => {
+  const bearertoken = req.headers['authorization'];
+  if(bearertoken) {
+    const token = bearertoken.split(" ")[1];
+    await jwt.verify(token,JWT_SECRET, (err,decoded) => {
+      if(err) throw error.forbidden;
+      if(decoded.id === 'Admin') {
+        req.isAdmin = true;
+      }
+      else {
+        req.isAdmin = false;
+      }
+      next();
+    });
+  }
+  else {
+    req.isAdmin  = false;
+    next();
+  }
 }
 
 module.exports = {
   authVerify,
   isAdmin,
+  checkAdmin
 };
