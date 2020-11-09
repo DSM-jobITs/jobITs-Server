@@ -44,8 +44,8 @@ const registerNotice = async (req, res) => {
   const form = new formidable.IncomingForm();
   form.encoding = 'utf-8';
   form.multiples = true;
-  try {
-    form.parse(req, async (err, fields, files) => {
+  form.parse(req, async (err, fields, files) => {
+    try {
       if (!Object.keys(fields).length) {
         throw badRequest;
       }
@@ -54,19 +54,19 @@ const registerNotice = async (req, res) => {
         throw badRequest;
       }
       const fixed = (fields.fixed !== 'false');
-
+  
       const noticeId = await noticeService.createNotice(title, content, fixed);
       await noticeService.uploadFiles(noticeId, files.files);
       
       res.status(201).send({
         id: noticeId
       });
-    });
-  } catch (error) {
-    res.status(error.status).send({
-      message: error.message
-    });
-  }
+    } catch (error) {
+      res.status(error.status).send({
+        message: error.message
+      });
+    }
+  });
 };
 
 const updateNotice = async (req, res) => {
