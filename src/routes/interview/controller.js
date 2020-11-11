@@ -10,6 +10,7 @@ const getInterviewList = async (req, res) => {
       throw badRequest;
     }
     const page = parseInt(req.query.page);
+    console.log(typeof page);
     if (isNaN(page)) {
       throw badRequest;
     }
@@ -23,13 +24,13 @@ const getInterviewList = async (req, res) => {
     const maxShow = 6;
 
     const results = await interview.getInterviewQuestions(page, field, keyword, maxShow);
-    const numOfQuestion = keyword ? results.length : await interview.getInterviewQuestions(field);
+    const numOfQuestion = keyword ? results.length : await interview.numOfInterviewQuestionsWithField(field);
     
     res.send({
       isAdmin: req.isAdmin,
       lists: results,
       field: field ? field : undefined,
-      numOfQuestion 
+      numOfQuestion : numOfQuestion
     });
   } catch (error) {
     res.status(error.status).send({
