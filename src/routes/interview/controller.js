@@ -24,6 +24,7 @@ const getInterviewList = async (req, res) => {
 
     const results = await interview.getInterviewQuestions(page, field, keyword, maxShow);
     res.send({
+      isAdmin: req.isAdmin,
       lists: results,
       field: field ? field : undefined,
       numOfQuestion: results.length
