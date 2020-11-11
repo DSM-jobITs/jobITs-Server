@@ -23,11 +23,13 @@ const getInterviewList = async (req, res) => {
     const maxShow = 6;
 
     const results = await interview.getInterviewQuestions(page, field, keyword, maxShow);
+    const numOfQuestion = keyword ? results.length : await interview.getInterviewQuestions(field);
+    
     res.send({
       isAdmin: req.isAdmin,
       lists: results,
       field: field ? field : undefined,
-      numOfQuestion: results.length
+      numOfQuestion 
     });
   } catch (error) {
     res.status(error.status).send({
