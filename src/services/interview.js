@@ -112,7 +112,7 @@ class InterviewService {
   async numOfInterviewQuestionsWithField(field) {
     return await this.interviewModel.count({
       where: {
-        field
+        field: field
       }
     });
   }
