@@ -108,6 +108,14 @@ class InterviewService {
       where: { id: id }
     });
   }
+
+  async numOfInterviewQuestionsWithField(field) {
+    return await this.interviewModel.count({
+      where: {
+        field
+      }
+    });
+  }
 }
 
 module.exports = InterviewService;
