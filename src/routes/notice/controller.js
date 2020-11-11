@@ -15,6 +15,7 @@ const getNoticeList = async (req, res) => {
 
     const lists = await noticeService.getNotices(page, maxShow);
     res.send({
+      isAdmin: req.isAdmin,
       lists: lists
     });
   } catch (error) {
@@ -57,7 +58,7 @@ const registerNotice = async (req, res) => {
   
       const noticeId = await noticeService.createNotice(title, content, fixed);
       await noticeService.uploadFiles(noticeId, files.files);
-      
+
       res.status(201).send({
         id: noticeId
       });

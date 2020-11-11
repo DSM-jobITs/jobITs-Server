@@ -5,13 +5,14 @@ const employment = new Employments(Employment);
 const MAX_LIMIT = 6;
 
 const list = async (req,res,next) => {
-  console.log('in list');
   try {
     const lists = await employment.getEmploymentList();
-    res.status(200).json({ lists:lists });// list 가져오기 성공
+    res.status(200).json({
+      isAdmin: req.isAdmin,
+      lists:lists
+    });// list 가져오기 성공
   }
   catch(err) {
-    console.log('come on');
     res.status(err.status).send({
       message: err.message
     })// list 가져오기 안됨
