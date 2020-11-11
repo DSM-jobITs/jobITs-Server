@@ -108,19 +108,6 @@ class InterviewService {
       where: { id: id }
     });
   }
-
-  async getNumOfInterviewQuestions(field) {
-    if (typeof field !== 'string' && field !== false) {
-      throw badRequest;
-    }
-    if (typeof field == 'string' && isWhiteSpace(field)) {
-      throw badRequest;
-    }
-
-    return await this.interviewModel.count({
-      where: { field }
-    });
-  }
 }
 
 module.exports = InterviewService;
