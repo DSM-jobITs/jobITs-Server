@@ -10,7 +10,6 @@ const getInterviewList = async (req, res) => {
       throw badRequest;
     }
     const page = parseInt(req.query.page);
-    console.log(typeof page);
     if (isNaN(page)) {
       throw badRequest;
     }
