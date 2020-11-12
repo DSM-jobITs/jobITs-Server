@@ -22,12 +22,14 @@ const getInterviewList = async (req, res) => {
     const keyword = req.query.keyword ? req.query.keyword : '';
     const maxShow = 6;
 
-    const results = await interview.getInterviewQuestions(page, field, keyword, maxShow);
-    const numOfQuestion = keyword ? results.length : await interview.numOfInterviewQuestionsWithField(field);
+    const lists = await interview.getInterviewQuestions(page, field, keyword, maxShow);
+    const numOfQuestion = keyword ? lists.length : await interview.numOfInterviewQuestionsWithField(field);
+    for (const list of lists) {
+      list.dataValues.isAdmin = req.isAdmin;
+    }
     
     res.send({
-      isAdmin: req.isAdmin,
-      lists: results,
+      lists: lists,
       field: field ? field : undefined,
       numOfQuestion : numOfQuestion
     });
