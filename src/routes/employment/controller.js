@@ -7,8 +7,11 @@ const MAX_LIMIT = 6;
 const list = async (req,res,next) => {
   try {
     const lists = await employment.getEmploymentList();
+    for (const list of lists) {
+      list.dataValues.isAdmin = req.isAdmin;
+    }
+
     res.status(200).json({
-      isAdmin: req.isAdmin,
       lists:lists
     });// list 가져오기 성공
   }
