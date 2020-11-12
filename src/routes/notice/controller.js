@@ -14,8 +14,11 @@ const getNoticeList = async (req, res) => {
     const maxShow = 6;  // 한 페이지에 보이는 게시물 수 고정
 
     const lists = await noticeService.getNotices(page, maxShow);
+    for (const list of lists) {
+      list.dataValues.isAdmin = req.isAdmin;
+    }
+    
     res.send({
-      isAdmin: req.isAdmin,
       lists: lists
     });
   } catch (error) {
