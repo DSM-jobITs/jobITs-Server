@@ -111,10 +111,13 @@ class InterviewService {
     });
   }
 
-  async numOfInterviewQuestionsWithField(field) {
+  async numOfInterviewQuestionsWithField(field, keyword) {
     return await this.interviewModel.count({
       where: {
-        field: field
+        field: field,
+        content: {
+          [Op.like]: '%' + keyword + '%'
+        }
       }
     });
   }
