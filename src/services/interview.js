@@ -112,6 +112,9 @@ class InterviewService {
   }
 
   async numOfInterviewQuestionsWithField(field, keyword) {
+    if (isWhiteSpace(keyword)) {
+      keyword = '';
+    }
     return await this.interviewModel.count({
       where: {
         field: field,

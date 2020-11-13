@@ -23,7 +23,7 @@ const getInterviewList = async (req, res) => {
     const maxShow = 6;
 
     const lists = await interview.getInterviewQuestions(page, field, keyword, maxShow);
-    const numOfQuestion = await interview.numOfInterviewQuestionsWithField(field);
+    const numOfQuestion = await interview.numOfInterviewQuestionsWithField(field, keyword);
     for (const list of lists) {
       list.dataValues.isAdmin = req.isAdmin;
     }
