@@ -1,3 +1,4 @@
+require('date-utils');
 const { badRequest, notFound } = require('../errors');
 const isWhiteSpace = require('../utils/isWhiteSpace');
 const { Op } = require('sequelize');
@@ -61,7 +62,8 @@ class InterviewService {
 
     await this.interviewModel.create({
       content: content,
-      field: field
+      field: field,
+      createdAt: new Date().toFormat('YYYY-MM-DD')
     });
   }
 
